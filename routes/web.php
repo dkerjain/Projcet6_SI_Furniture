@@ -38,7 +38,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 // Auth::routes();
 
   //route admin
-  Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'],function(){
+  Route::group(['prefix' => 'admin'],function(){
     Route::get('/','AdminController@dashboard')->name('admin.dashboard');
     Route::get('/laporan', 'AdminController@laporan')->name('admin.penjualan.laporan');
     Route::get('/export-pdf', 'AdminController@exportPDF');

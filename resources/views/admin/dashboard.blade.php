@@ -1,105 +1,164 @@
 @extends('admin.layout.master')
 @section('title') Dashboard @endsection
-@section('style')
-<style>
+@section('css')
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-</style>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
+
 @section('content')
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4 col-12">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">store</i>
-            </div>
-            <p class="card-category">Nilai Transaksi Bulanan</p>
-            <h3 class="card-title"> Rp  {{ number_format($nilai_transaksi, 0, ',', '.') }} </h3>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-             
-              <a href="{{route('admin.penjualan.laporan')}}">Klik disini untuk melihat laporan Bulan {{date('F Y')}} </a> 
-              
-              <br>
-            </div>
-          </div>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><b>Dashboard</b></h1>
         </div>
       </div>
-      <div class="col-md-4 col-12">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">store</i>
-            </div>
-            <p class="card-category">Item Terjual Bulan Ini</p>
-            <h3 class="card-title">{{$item_terjual}} Buah</h3>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">date_range</i> Bulan {{date('F Y')}}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-12">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">warning</i>
-            </div>
-            <p class="card-category">Nota yang belum ditindak</p>
-            <h3 class="card-title">{{count($order_belum_ditindak)}} Nota</h3>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <a href="{{route('admin.order')}}">Klik disini untuk melihat list nota</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- /.container-fluid -->
     </div>
-    <div class="row">
-      <!-- stok produk yang hampir habis -->
-      <div class="col-12">
-        <div class="card card-chart">
-          <div class="card-header card-header-success">
-            <h5 class="card-title ">Stok Produk Yang Hampir Habis</h5>
-          </div>
-          <div class="card-body">
-            @if(count($produk)!=0)
-            <table class="table">
-              <thead class="text-success">
-                <th style="width:20%">Kode Barang</th>
-                <th>Nama Produk</th>
-                <th>Stok Tersisa</th>
-              </thead>
-              <tbody>
-                @for($i=0;$i<count($produk);$i++)
-                <tr>
-                  <td>{{$produk[$i]->kode_barang}}</td>
-                  <td><a href="{{route('admin.produk.show',['id'=>$produk[$i]->id])}}">{{$produk[$i]->nama_produk}}</a></td>
-                  <td>{{$produk[$i]->stok}}</td>
-                </tr>
-                @endfor
-              </tbody>
-            </table>
-            @else
-            <div class="text-center">
-              <p>Tidak ada produk dengan stok hampir habis (kurang dari 3 buah)</p>
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Tanggal dan Pegawai -->
+      <div class="row">
+        <div class="col-lg-4 col-4">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <p>Total Pemasukan Bulan Ini</p>
+              <h3>Rp. 0 </h3>
             </div>
-            @endif
+            <div class="icon">
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-4 col-4">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <p>Barang Yang Terjual Bulan Ini</p>
+              <h3>0</h3>
+            </div>
+            <div class="icon">
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-4">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <p>Pemesanan Sedang Diproses
+              <h3> 0 </h3>
+            </div>
+            <div class="icon">
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
       </div>
+
+      <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Penjualan Bulan Ini</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background: white; color:black;">
+                      <th>Rendering engine</th>
+                      <th>Browser</th>
+                      <th>Platform(s)</th>
+                      <th>Engine version</th>
+                      <th>CSS grade</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Other browsers</td>
+                      <td>All others</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>U</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+      
     </div>
-  </div>
-</div>
+  </section>
+
 @endsection
+
 @section('script')
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
 <script>
-  $("#dashboard").addClass("active");
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
+
+@if (session('login'))
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Anda Berhasil Login'
+    })
+  </script>
+@endif
+
 @endsection
