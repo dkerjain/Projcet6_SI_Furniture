@@ -1,256 +1,248 @@
 @extends('admin.layout.master')
 @section('title') Kategori @endsection
-@section('style')
-<style>
+@section('css')
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-</style>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
+
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="card mt-0">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-9 col-12">
-            <h4 class="my-1 text-success font-weight-bold">Daftar Kategori</h4>
-            <p class="my-1">Berikut adalah daftar kategori yang tersedia pada Bedug Langgeng</p>
-          </div>
-          <div class="col-md-3 col-12">
-            <button type="button" data-toggle="modal" data-target="#create" class="btn btn-success btn-block" ><i class="material-icons mr-2">add_circle</i>Tambah Kategori</button>
-          </div>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><b>Kategori</b></h1>
         </div>
       </div>
+      <!-- /.container-fluid -->
     </div>
-  </div>
-  @if ($message = Session::get('success'))
-  <div class="col-12">
-  <div class="alert alert-success alert-with-icon" data-notify="container">
-    <i class="material-icons" data-notify="icon">cancel</i>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <i class="material-icons">close</i>
-    </button>
-    <span data-notify="message">{{ $message }}</span>
-  </div>
-  </div>
-  @endif
-  <!-- modal tambah kategori -->
-  <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="row mb-3">
-            <div class="col-md-8 col-8">
-              <h5 class="modal-title mt-2">Tambah Kategori</h5>
-            </div>
-            <div class="col-md-4 col-4">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-12">
-              <form id="createcategory" action="{{ route('admin.kategori.store') }}" method="post" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <div class="form-group">
-                  <p class="mb-0 font-weight-normal">Nama Kategori</p>
-                  <input type="text" name="nama_kategori" class="form-control" required>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body bg-success pb-1">
-                    <div class="custom-file">
-                      <input type="file" name="image" class="custom-file-input" required>
-                      <label class="custom-file-label text-white">Klik untuk tambah foto</label>
-                    </div>
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Tanggal dan Pegawai -->
+    
+      <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-10">
+                      <h3 class="card-title mt-3"><b>Data Kategori</b></h3>
+                  </div>
+                  <div class="col-2">
+                      <button  class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-kategori">Tambah Kategori</button>
                   </div>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div align="right">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            <button type="submit" form="createcategory" class="btn btn-success">Buat</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- card list kategori -->
-  <div class="col-12">
-    <div class="card mt-0">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-8 col-12 my-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text padding-src">
-                  <i class="material-icons">search</i>
-                </span>
               </div>
-              <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Cari...">
-            </div>
-          </div>
-          <div class="col-md-8 col-12 mb-3">
-            <div class="table-responsive">
-              <table class="table">
-                <thead class="text-success">
-                  <th>
-                    No
-                  </th>
-                  <th>
-                    Nama Kategori
-                  </th>
-                  <th>
-                    Aksi
-                  </th>
-                </thead>
-                <tbody>
-                  @for($i=0;$i<count($kategori);$i++)
-                    <tr>
-                      <td>{{$i+1}}</td>
-                      <td>{{$kategori[$i]->nama_kategori}}</td>
-                      <td class="td-actions">
-                        <!-- lihat foto -->
-                        <button type="button" data-toggle="modal" data-target="#foto{{$i}}" rel="tooltip" title="Lihat Foto" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">insert_photo</i>
-                        </button>
-                        <!-- edit kategori -->
-                        <button type="button" data-toggle="modal" data-target="#edit{{$i}}" rel="tooltip" title="Edit Kategori" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </button>
-                        <!-- hapus kategori (kecuali kategori pertama!) -->
-                        @if($kategori[$i]->id!=1)
-                        <!--<button type="button" data-toggle="modal" data-target="#delete{{$i}}" rel="tooltip" title="Hapus Kategori" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>
-                        </button>-->
-                        @endif
-                      </td>
-                      <!-- modal foto -->
-                      <div class="modal fade" id="foto{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <div class="row mb-3">
-                                <div class="col-md-8 col-8">
-                                  <h5 class="modal-title mt-2">Foto Kategori</h5>
-                                </div>
-                                <div class="col-md-4 col-4">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <div class="col-12" align="center">
-                                  <img src="{{asset($kategori[$i]->url_photo)}}" class="w-50" alt="">
-                                </div>
-                              </div>
-                              <div align="right">
-                                <button type="button" class="btn btn-success" data-dismiss="modal">Tutup</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- modal edit -->
-                      <div class="modal fade" id="edit{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <div class="row mb-3">
-                                <div class="col-md-8 col-8">
-                                  <h5 class="modal-title mt-2">Edit Kategori</h5>
-                                </div>
-                                <div class="col-md-4 col-4">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <div class="col-12">
-                                  <form id="editcategory{{$i}}" action="{{ route('admin.kategori.update',['id'=>$kategori[$i]->id]) }}" method="post" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                      <p class="mb-0 font-weight-normal">Nama Kategori</p>
-                                      <input type="text" name="nama_kategori" class="form-control" value="{{$kategori[$i]->nama_kategori}}" required>
-                                    </div>
-                                    <div class="card mt-2">
-                                      <div class="card-body bg-success pb-1">
-                                        <div class="custom-file">
-                                          <input type="file" name="image" class="custom-file-input">
-                                          <label class="custom-file-label text-white">Klik untuk ganti foto</label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                              <div align="right">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="submit" form="editcategory{{$i}}" class="btn btn-success">Simpan</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- modal hapus -->
-                      <div class="modal fade" id="delete{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <div class="row mb-3">
-                                <div class="col-md-8 col-8">
-                                  <h5 class="modal-title mt-2">Hapus Kategori</h5>
-                                </div>
-                                <div class="col-md-4 col-4">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <div class="col-12">
-                                  <form id="deletecategory{{$i}}" action="{{ route('admin.kategori.destroy',['id'=>$kategori[$i]->id]) }}" method="post" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                  <p class="mb-1">Apakah anda yakin menghapus kategori <b>{{$kategori[$i]->nama_kategori}}</b>?</p>
-                                  <p>Seluruh produk yang menggunakan kategori ini akan dipindah menjadi kategori <b>{{$kategori[0]->nama_kategori}}</b></p>
-                                </form>
-                                </div>
-                              </div>
-                              <div align="right">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="submit" form="deletecategory{{$i}}" class="btn btn-danger">Hapus</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background: white; color:black;">
+                      <th>Id Kategori</th>
+                      <th>Nama Kategori</th>
+                      <th>Aksi</th>
                     </tr>
-                  @endfor
-                </tbody>
-              </table>
-              @if(count($kategori)==0)
-              <div class="mt-5" align="center">
-                <p class="text-secondary">Belum ada kategori yang tersedia</p>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>ID001</td>
+                      <td>Meja</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-kategori"><i class="nav-icon fas fa-edit" ></i></button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-kategori"><i class="nav-icon fas fa-image" ></i></button>
+                        <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              @endif
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
+          <!-- /.col -->
         </div>
-      </div>
+      
     </div>
-  </div>
-</div>
-@endsection
-@section('script')
-<script>
-  $("#kategori").addClass("active");
+  </section>
 
-  //buat upload file dokumen
-  $(".custom-file-input").on("change", function() {
-    var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  <!-- Modall -->
+      <!-- /.modal Input-->
+        <div class="modal fade" id="modal-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Nama Kategori</label>
+                                <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">Input Foto</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+
+      <!-- /.modal Foto -->
+        
+        <div class="modal fade" id="foto-kategori">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Foto Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="item form-group" style="text-align:center;">
+                          <img src="{{asset('image/produk/meja1.jpg')}}" style="width:250px; height:250px;">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      <!-- /.modal -->
+
+      <!-- /.modal Edit-->
+        <div class="modal fade" id="edit-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.update') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                          <div class="form-group">
+                              <label for="exampleInputPassword1">Nama Kategori</label>
+                              <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                          </div>
+                          <div class="form-group">
+                              <label for="exampleInputFile">Input Foto</label>
+                              <div class="input-group">
+                                  <div class="custom-file">
+                                      <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+
+@endsection
+
+@section('script')
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
   });
 </script>
+
+@if (session('login'))
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Anda Berhasil Login'
+    })
+  </script>
+@endif
+
+@if (session('success'))
+  <script>
+      Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Data Barang Berhasil Disimpan',
+          showConfirmButton: false,
+          timer: 2000
+      }); 
+  </script>
+@endif
+
 @endsection
