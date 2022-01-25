@@ -1,5 +1,6 @@
 @extends('public.layout.master')
 @section('title')
+Keranjang - DOMUS
 @endsection
 @section('style')
 <style>
@@ -73,7 +74,7 @@
 @endsection
 @section('content')
 <div class="produk_background">
-  <div class="produk_background_background parallax-window" data-parallax="scroll" data-image-src="{{asset('public_assets/images/cart.jpg')}}" data-speed="0.8"></div>
+  <div class="produk_background_background parallax-window" data-parallax="scroll" data-image-src="{{asset('image/carousel/carousel-3.png')}}" data-speed="0.8"></div>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -164,11 +165,11 @@
          <div class="col-12 mt-3">
             <div class="form-group">
               <label>Nama Pemesan <span class="text-success">*</span></label>
-              <input type="text" class="form-control" placeholder="contoh : Annisa Putri Karlina" name="nama_customer" value="{{ old('nama_customer') }}">
+              <input type="text" class="form-control" placeholder="contoh : Adhis Adela" name="nama_customer" value="{{ old('nama_customer') }}">
             </div>
             <div class="form-group">
               <label>Alamat <span class="text-success">*</span></label>
-              <input type="text" class="form-control" placeholder="contoh : Dsn Ngudikidul 614" name="alamat" value="{{ old('alamat') }}">
+              <input type="text" class="form-control" placeholder="contoh : Jl. Mawar 435" name="alamat" value="{{ old('alamat') }}">
             </div>
            
              <div class="form-group">
@@ -194,15 +195,15 @@
             </div>
            {{--  <div class="form-group">
               <label>Kode Pos <span class="text-success">*</span></label>
-              <input type="text" class="form-control" placeholder="contoh : 61351" name="kode_pos" value="{{ old('kode_pos') }}">
+              <input type="text" class="form-control" placeholder="contoh : 602391" name="kode_pos" value="{{ old('kode_pos') }}">
             </div> --}}
             <div class="form-group">
               <label>Nomor Telepon (Whatsapp) <span class="text-success">*</span></label>
-              <input type="text" class="form-control" placeholder="contoh : 085804997774" name="nomor_telepon" value="{{ old('nomor_telepon') }}">
+              <input type="text" class="form-control" placeholder="contoh : 081234501234" name="nomor_telepon" value="{{ old('nomor_telepon') }}">
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="text" class="form-control" placeholder="contoh : Annisa.putri.karlina@gmail.com" name="email" value="{{ old('email') }}">
+              <input type="text" class="form-control" placeholder="contoh : Adhis@gmail.com" name="email" value="{{ old('email') }}">
             </div>
             <div class="form-group">
               <label>Catatan</label>
@@ -216,7 +217,7 @@
               
       
               <select class="form-control" name="jasa_kurir" data-style="btn btn-link" name="jasa_kurir" value="{{ old('jasa_kurir') }}" required>
-                <option value="0">Bedug Langgeng</option>
+                <option value="0">DOMUS</option>
                 <option value="1">Sendiri</option>
               </select>
                 

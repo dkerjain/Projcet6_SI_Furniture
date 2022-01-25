@@ -1,5 +1,5 @@
 @extends('public.layout.master')
-@section('title') Home - Bedug Langgeng @endsection
+@section('title') Home - DOMUS  @endsection
 @section('style')
 <style>
   .parallax {
@@ -43,7 +43,7 @@
   	right: -20px;
   	width: 90px;
   	height: 90px;
-  	background: #4CAF50;
+  	background: #2F4F4F;
   	border-radius: 50%;
   	cursor: pointer;
   	-webkit-transition: all 200ms ease;
@@ -80,7 +80,7 @@
 <!-- Home -->
 
 <div class="home">
-  <div class="home_background" style="background-image:url({{asset('image/carousel/carousel-3.jpg')}})"></div>
+  <div class="home_background" style="background-image:url({{asset('image/carousel/carousel-3-1.png')}})"></div>
   <div class="home_content">
     <div class="home_content_inner">
     </div>
@@ -178,11 +178,11 @@
 <!-- Find Form -->
 <div class="find">
   <!-- Image by https://unsplash.com/@garciasaldana_ -->
-  <div class="find_background parallax-window" data-parallax="scroll" data-image-src="{{asset('public_assets/images/cart.jpg')}}" data-speed="0.8"></div>
+  <div class="find_background parallax-window" data-parallax="scroll" data-image-src="{{asset('image/carousel/carousel-3.png')}}" data-speed="0.8"></div>
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <div class="find_title text-center font-weight-normal">Cari Bedug Terbaik di Bedug Langgeng</div>
+        <div class="find_title text-center font-weight-normal">Cari Furniture Unik di DOMUS</div>
       </div>
       <div class="col-12">
         <div class="find_form_container">
@@ -215,7 +215,7 @@
       <div class="col">
         <div class="section_title text-center">
           <h2>Kategori</h2>
-          <div> Bedug terbaik di Seluruh Indonesia</div>
+          <div> Best Furniture DOMUS</div>
         </div>
       </div>
     </div>
@@ -246,7 +246,7 @@
 
 <div class="newsletter">
   <!-- Image by https://unsplash.com/@garciasaldana_ -->
-  <div class="newsletter_background" style="background-image:url({{asset('public_assets/images/contact-2.jpg')}})"></div>
+  <div class="newsletter_background" style="background-image:url({{asset('image/carousel/carousel-3.png')}})"></div>
   <div class="container">
     <div class="row">
       <div class="col-lg-10 offset-lg-1">

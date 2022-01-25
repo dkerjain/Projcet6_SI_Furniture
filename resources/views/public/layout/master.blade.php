@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('public_assets/styles/responsive.css')}}">
 <style>
   .logo-jameela{
-    height: 80px;
+    height: 50px;
     width: auto;
   }
   .search-icon{
@@ -24,10 +24,10 @@
     color:#ffffff;
   }
   .color-jameela{
-    color:#D2691E !important;
+    color:#2F4F4F !important;
   }
   .background-color-jameela{
-    background:#D2691E !important;
+    background:#2F4F4F !important;
   }
   .social-media-logo-md{
     display:block;
@@ -53,14 +53,14 @@
   <!-- Header -->
 
   <header class="header">
-    <div class="container">
+    <div class="hcontainer">
       <div class="row">
-        <div class="col">
+        <div class="col-12">
           <div class="header_container d-flex flex-row align-items-center justify-content-start">
 
             <!-- Logo -->
             <div class="logo_container">
-              <img class="logo-jameela mb-2 ml-3" src="{{asset('image/logo.png')}}" alt="">
+              <img class="logo-jameela mb-2 ml-3" src="{{asset('image/logo.jpg')}}" alt="">
             </div>
 
             <!-- Main Navigation -->
@@ -69,7 +69,6 @@
                 <li id="beranda-nav" class="main_nav_item" ><a href="{{route('public.index')}}"class="color-jameela">Home</a></li>
                 <li id="produk-nav" class="main_nav_item"><a href="{{route('public.produk')}}"class="color-jameela">Produk</a></li>
                 <li id="kontak-nav" class="main_nav_item"><a href="{{route('public.kontak')}}"class="color-jameela">Kontak Kami</a></li>
-                <li id="kontak-nav" class="main_nav_item"><a href="{{route('public.tracking')}}"class="color-jameela">Tracking</a></li>
                 <li id="keranjang-nav" class="main_nav_item"><a href="{{route('public.keranjang')}}"><i class="fa fa-shopping-cart icon-nav color-jameela" aria-hidden="true"><span class="ml-1 mb-3 color-jameela">@if(session('cart')) {{count(session('cart'))}} @else 0 @endif</span></i></a></li>
               </ul>
             </nav>
@@ -107,7 +106,6 @@
           <li class="menu_item menu_mm"><a href="{{route('public.index')}}" class="color-jameela">Home</a></li>
           <li class="menu_item menu_mm"><a href="{{route('public.produk')}}" class="color-jameela">Produk</a></li>
           <li class="menu_item menu_mm"><a href="{{route('public.kontak')}}" class="color-jameela">Kontak Kami</a></li>
-          <li class="menu_item menu_mm"><a href="{{route('public.kontak')}}" class="color-jameela">Tracking</a></li>
           <li class="menu_item menu_mm"><a href="{{route('public.keranjang')}}" class="color-jameela"><i class="fa fa-shopping-cart icon-nav color-jameela" aria-hidden="true"><span class="ml-1 mb-3">@if(session('cart')) {{count(session('cart'))}} @else 0 @endif</span></i></a></li>
         </ul>
 
@@ -121,25 +119,13 @@
   <!-- Footer -->
   <footer>
     <div class="container" style="height:30vh">
-      <div class="row mt-5 pt-3">
+      <div class="row  pt-3">
         <div class="col-md-6 col-12 justify-content-start">
-          <h3 class="color-jameela"><b>Bedug Langgeng</b></h3>
-          <p class="color-jameela">Rumah Pemasaran : 
-            <br>Jl. Raya Gempolkerep 183 Gedeg - Mojokerto JAWA TIMUR
-            <br>Bengkel Kerja :
-            <br>Jl. Raya Kedungsari (Simpang Tiga) Kec. Kemlagi - Mojokerto.
-            <br>(Jalur Mojokerto Menuju Ploso JOMBANG) JAWA TIMUR </p>
-
-        <div class="col-md-6 col-12 social-media-logo-md">
-          <div class="d-flex justify-content-end mt-4">
-            <a href="https://api.whatsapp.com/send?phone=628563071834&text=Hai%20admin%20Bedug%20Langgeng"><img class="mr-2" style="width:40px;" src="{{asset('image/wa1-logo.png')}}"></a>
-            <a href="https://www.facebook.com/BedugLanggeng/"><img class="mr-2" style="width:40px;" src="{{asset('image/fb-logo.png')}}"></a>
-            <a href="https://www.instagram.com/bedug_langgeng/?hl=id"><img style="width:40px;" src="{{asset('image/ig-logo.png')}}"></a>
-          </div>
+          <h3 class="color-jameela"><b>DOMUS Furniture</b></h3>
+          <p class="color-jameela">08123456789
+          <br>Jl. Sono Kembang No.1, Embong Kaliasin, Kec. Genteng
+          <br>Surabaya JAWA TIMUR - 60271</p>
         </div>
-
-
-
 
 
         <div class="col-12 mt-5" align="center">
