@@ -46,7 +46,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr style="background: white; color:black;">
-                      <th>Id Produk</th>
+                      <th>Kode Barang</th>
                       <th>Kategori </th>
                       <th>Nama Produk</th>
                       <th>Stok</th>
@@ -55,18 +55,129 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($produk as $p)
                     <tr>
-                      <td>PRD001</td>
-                      <td>Meja</td>
-                      <td>Meja Nakas</td>
-                      <td>10</td>
-                      <td>Rp. 340.000</td>
+                      <td>{{ $p->kode_barang }}</td>
+                      @foreach($kategori as $k)
+                        @if($k->id==$p->id_kategori)
+                          <td>{{ $k->nama_kategori }}</td>
+                        @endif
+                      @endforeach
+                      <td>{{ $p->nama_produk }}</td>
+                      <td>{{ $p->stok }}</td>
+                      <td>Rp. {{ number_format($p->harga) }}</td>
                       <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-produk"><i class="nav-icon fas fa-edit" ></i></button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-produk"><i class="nav-icon fas fa-image" ></i></button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-produk{{$p->id}}"><i class="nav-icon fas fa-edit" ></i></button>
+                        <!-- /.modal Edit-->
+                        <div class="modal fade" id="edit-produk{{$p->id}}">
+                              <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Edit Data Produk</h4>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <form action="{{ route('admin.produk.update') }}" method="POST" enctype="multipart/form-data">
+                                          {{ csrf_field() }}         
+                                          <div class="modal-body">
+                                          <input type="hidden" class="form-control" required id="id" name="id" value="{{$p->id}}">
+                                              <div class="form-group">
+                                                  <label>Kategori <span class="required">*</span></label>
+                                                  <select class="form-control" required name="id_kategori">
+                                                      @foreach($kategori as $k)
+                                                          <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
+                                                      @endforeach
+                                                  </select>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="exampleInputPassword1">Kode Barang <span class="required">*</span></label>
+                                                <input type="text" class="form-control" required id="kode_barang" name="kode_barang" value="{{$p->kode_barang}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Nama Produk <span class="required">*</span></label>
+                                                  <input type="text" class="form-control" required id="nama" name="nama" value="{{$p->nama_produk}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Stok <span class="required">*</span></label>
+                                                  <input type="number" class="form-control" min="0" required id="stok" name="stok" value="{{$p->stok}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Harga <span class="required">*</span></label>
+                                                  <input type="text" class="form-control" min="0" required id="harga" name="harga" value="{{$p->harga}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Berat <span class="required">*</span></label>
+                                                  <input type="text" class="form-control" min="0" required id="berat" name="berat" value="{{$p->berat}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Diskon <span class="required"></span></label>
+                                                  <input type="text" class="form-control" min="0" id="diskon" name="diskon" value="{{$p->diskon}}">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label>Kategori <span class="required">*</span></label>
+                                                  <select class="form-control" required name="status_produk">
+                                                      <option value="1">Aktif</option>
+                                                      <option value="0">Non-Aktif</option>
+                                                  </select>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>
+                                                  <div class="input-group">
+                                                      <div class="custom-file">
+                                                          <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
+                                                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="exampleInputPassword1">Deskripsi Produk</label>
+                                                  <textarea class="form-control" id="keterangan" name="keterangan">{{$p->keterangan}}</textarea>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer justify-content-between">
+                                              <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                              <button type="submit" class="btn btn-primary">Simpan</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                                  <!-- /.modal-content -->
+                              </div>
+                              <!-- /.modal-dialog -->
+                          </div>
+                        <!-- /.modal -->
+                        
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-produk{{$p->id}}"><i class="nav-icon fas fa-image" ></i></button>
+                        <!-- /.modal Foto -->
+                        <div class="modal fade" id="foto-produk{{$p->id}}">
+                              <div class="modal-dialog modal-sm">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h4 class="modal-title">Foto Produk</h4>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <div class="item form-group" style="text-align:center;">
+                                            @foreach($picture as $pc)
+                                              @if($pc->id_produk == $p->id)
+                                              <img src="{{ $pc->url_photo }}" style="width:250px; height:250px;">
+                                              @endif
+                                            @endforeach
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        <!-- /.modal -->
                         <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-produk"><i class="nav-icon fas fa-trash" ></i></button> -->
                       </td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -96,12 +207,16 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Kategori <span class="required">*</span></label>
-                                <select class="form-control" required name="kategori">
+                                <select class="form-control" required name="id_kategori">
                                     <option value="">-- Pilih Kategori --</option>
                                     @foreach($kategori as $k)
-                                        <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
+                                        <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Kode Barang <span class="required">*</span></label>
+                                <input type="text" class="form-control" required id="kode_barang" name="kode_barang" placeholder="Masukkan Kode Barang">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nama Produk <span class="required">*</span></label>
@@ -116,10 +231,18 @@
                                 <input type="text" class="form-control" min="0" required id="harga" name="harga" placeholder="0">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputPassword1">Berat <span class="required">*</span></label>
+                                <input type="text" class="form-control" min="0" required id="berat" name="berat" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Diskon <span class="required"></span></label>
+                                <input type="text" class="form-control" min="0" id="diskon" name="diskon" placeholder="0">
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                        <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
                                 </div>
@@ -141,88 +264,9 @@
         </div>
       <!-- /.modal -->
 
-      <!-- /.modal Foto -->
-        <div class="modal fade" id="foto-produk">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Foto Produk</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="item form-group" style="text-align:center;">
-                            <img src="{{asset('image/produk/meja1.jpg')}}" style="width:250px; height:250px;">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      <!-- /.modal -->
+      
 
-      <!-- /.modal Edit-->
-        <div class="modal fade" id="edit-produk">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Data Produk</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="{{ route('admin.produk.update') }}" method="POST" enctype="multipart/form-data">
-                        {{ csrf_field() }}         
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Kategori <span class="required">*</span></label>
-                                <select class="form-control" required name="kategori">
-                                    <option value="">-- Pilih Kategori --</option>
-                                    @foreach($kategori as $k)
-                                        <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Nama Produk <span class="required">*</span></label>
-                                <input type="text" class="form-control" required id="nama" name="nama" value="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Stok <span class="required">*</span></label>
-                                <input type="number" class="form-control" min="0" required id="stok" name="stok" value="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Harga <span class="required">*</span></label>
-                                <input type="text" class="form-control" min="0" required id="harga" name="harga" value="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Deskripsi Produk</label>
-                                <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Masukkan Keterangan Produk"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-      <!-- /.modal -->
+      
 
 @endsection
 

@@ -30,9 +30,10 @@ class ProdukController extends Controller
      */
     public function index()
     {
-      $produk = Produk::with('ukiran','kategori','picture')->get();
+      $produk = Produk::all();
       $kategori = Kategori::all();
-      return view('admin.produk.index',compact('produk','kategori'));
+      $picture = Picture::all();
+      return view('admin.produk.index',compact('produk','kategori','picture'));
     }
 
     /**
@@ -57,16 +58,14 @@ class ProdukController extends Controller
     {
       $produk = new Produk;
       $produk->id_kategori = $request->id_kategori;
-      $produk->id_ukiran= $request->id_ukiran;
-      $produk->nama_produk= $request->nama_produk;
+      $produk->nama_produk= $request->nama;
       $produk->kode_barang= $request->kode_barang;
-      $produk->nomor_barcode= $request->nomor_barcode;
       $produk->stok= $request->stok;
-      $produk->harga= $request->harga;
+      $harga = str_replace(".","",$request->harga);
+      $produk->harga= $harga;
       $produk->berat= $request->berat;
       $produk->diskon= $request->diskon;
-      $produk->status_diskon= $request->status_diskon;
-      $produk->status_produk= $request->status_produk;
+      $produk->status_produk = 1;
       $produk->keterangan= $request->keterangan;
       $produk->save();
 
@@ -140,19 +139,17 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-      $produk = Produk::find($id);
+      $produk = Produk::find($request->id);
       $produk->id_kategori = $request->id_kategori;
-      $produk->id_ukiran= $request->id_ukiran;
-      $produk->nama_produk= $request->nama_produk;
+      $produk->nama_produk= $request->nama;
       $produk->kode_barang= $request->kode_barang;
-      $produk->nomor_barcode= $request->nomor_barcode;
       $produk->stok= $request->stok;
-      $produk->harga= $request->harga;
+      $harga = str_replace(".","",$request->harga);
+      $produk->harga= $harga;
       $produk->berat= $request->berat;
       $produk->diskon= $request->diskon;
-      $produk->status_diskon= $request->status_diskon;
       $produk->status_produk= $request->status_produk;
       $produk->keterangan= $request->keterangan;
       $produk->save();

@@ -102,9 +102,9 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $kategori = Kategori::find($id);
+        $kategori = Kategori::find($request->id);
         $kategori->nama_kategori = $request->nama_kategori;
         if($request->hasfile('image')){
           //membuat path storage foto

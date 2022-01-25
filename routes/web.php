@@ -44,66 +44,54 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
     Route::get('/export-pdf', 'AdminController@exportPDF');
     Route::get('/logout','UserController@logout')->name('admin.logout');
     //penjualan
-  Route::group(['prefix' => 'penjualan'], function () {
-    Route::get('/','OrderController@index')->name('admin.order');
-    Route::get('/history','OrderController@history')->name('admin.history');
-    Route::get('/create','OrderController@create')->name('admin.order.create');
-    Route::post('/store','OrderController@store')->name('admin.order.store');
-    Route::get('/update/{id}', 'OrderController@edit')->name('admin.order.edit');
-    Route::post('/update/{id}', 'OrderController@update')->name('admin.order.update');
-    Route::get('/{id}','OrderController@show')->name('admin.order.show');
-    Route::get('/print/{id}','OrderController@print')->name('admin.order.print');
-    Route::get('/print-view/{id}','OrderController@printView')->name('admin.order.print.view');
-    Route::get('/download/{id}','OrderController@download')->name('admin.order.download');
-    Route::post('/delete/{id}','OrderController@destroy')->name('admin.order.destroy');
-    
-    });
+    Route::group(['prefix' => 'penjualan'], function () {
+      Route::get('/','OrderController@index')->name('admin.order');
+      Route::get('/history','OrderController@history')->name('admin.history');
+      Route::get('/create','OrderController@create')->name('admin.order.create');
+      Route::post('/store','OrderController@store')->name('admin.order.store');
+      Route::get('/update/{id}', 'OrderController@edit')->name('admin.order.edit');
+      Route::post('/update/{id}', 'OrderController@update')->name('admin.order.update');
+      Route::get('/{id}','OrderController@show')->name('admin.order.show');
+      Route::get('/print/{id}','OrderController@print')->name('admin.order.print');
+      Route::get('/print-view/{id}','OrderController@printView')->name('admin.order.print.view');
+      Route::get('/download/{id}','OrderController@download')->name('admin.order.download');
+      Route::post('/delete/{id}','OrderController@destroy')->name('admin.order.destroy');
+      });
   
     //pembayaran
     Route::group(['prefix' => 'pembayaran'], function () {
-    Route::get('/','PembayaranController@index')->name('admin.pembayaran');
-    //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
-    Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
-    Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
-    Route::post('/update/{id}', 'PembayaranController@update')->name('admin.pembayaran.update');
-    Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
+      Route::get('/','PembayaranController@index')->name('admin.pembayaran');
+      //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
+      Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
+      Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
+      Route::post('/update/{id}', 'PembayaranController@update')->name('admin.pembayaran.update');
+      Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
     });
+
     //produk
-    Route::group(['prefix' => 'produk'], function () {
-    Route::get('/','ProdukController@index')->name('admin.produk');
-    Route::get('/create','ProdukController@create')->name('admin.produk.create');
-    Route::post('/store','ProdukController@store')->name('admin.produk.store');
-    Route::get('/update/{id}', 'ProdukController@edit')->name('admin.produk.edit');
-    Route::post('/update/{id}', 'ProdukController@update')->name('admin.produk.update');
-    Route::get('/{id}','ProdukController@show')->name('admin.produk.show');
-    Route::post('/delete/{id}','ProdukController@destroy')->name('admin.produk.destroy');
-    });
-    // foto
-    Route::group(['prefix' => 'picture'], function () {
-    Route::post('/delete/{id}','PictureController@destroy')->name('admin.produk.picture.destroy');
-    });
-  
-  
-  
-    //Kategori
-    Route::group(['prefix' => 'kategori'], function () {
-    Route::get('/','KategoriController@index')->name('admin.kategori');
-    Route::get('/create','KategoriController@create')->name('admin.kategori.create');
-    Route::post('/store','KategoriController@store')->name('admin.kategori.store');
-    Route::get('/update/{id}', 'KategoriController@edit')->name('admin.kategori.edit');
-    Route::post('/update', 'KategoriController@update')->name('admin.kategori.update');
-    Route::get('/{id}','KategoriController@show')->name('admin.kategori.show');
-    Route::post('/delete/{id}','KategoriController@destroy')->name('admin.kategori.destroy');
-    });
-  
-    //Ukiran 
     Route::group(['prefix' => 'produk'], function () {
       Route::get('/','ProdukController@index')->name('admin.produk');
       Route::get('/create','ProdukController@create')->name('admin.produk.create');
       Route::post('/store','ProdukController@store')->name('admin.produk.store');
-      Route::get('/update/{id}', 'UkiranController@edit')->name('admin.ukiran.edit');
+      Route::get('/update/{id}', 'ProdukController@edit')->name('admin.produk.edit');
       Route::post('/update', 'ProdukController@update')->name('admin.produk.update');
-      Route::get('/{id}','UkiranController@show')->name('admin.ukiran.show');
-      Route::post('/delete/{id}','UkiranController@destroy')->name('admin.ukiran.destroy');
+      Route::get('/{id}','ProdukController@show')->name('admin.produk.show');
+      Route::post('/delete/{id}','ProdukController@destroy')->name('admin.produk.destroy');
     });
+    // foto
+    Route::group(['prefix' => 'picture'], function () {
+      Route::post('/delete/{id}','PictureController@destroy')->name('admin.produk.picture.destroy');
+    });
+  
+    //Kategori
+    Route::group(['prefix' => 'kategori'], function () {
+      Route::get('/','KategoriController@index')->name('admin.kategori');
+      Route::get('/create','KategoriController@create')->name('admin.kategori.create');
+      Route::post('/store','KategoriController@store')->name('admin.kategori.store');
+      Route::get('/update/{id}', 'KategoriController@edit')->name('admin.kategori.edit');
+      Route::post('/update', 'KategoriController@update')->name('admin.kategori.update');
+      Route::get('/{id}','KategoriController@show')->name('admin.kategori.show');
+      Route::post('/delete/{id}','KategoriController@destroy')->name('admin.kategori.destroy');
+    });
+
   });
