@@ -91,18 +91,18 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
     Route::get('/create','KategoriController@create')->name('admin.kategori.create');
     Route::post('/store','KategoriController@store')->name('admin.kategori.store');
     Route::get('/update/{id}', 'KategoriController@edit')->name('admin.kategori.edit');
-    Route::post('/update/{id}', 'KategoriController@update')->name('admin.kategori.update');
+    Route::post('/update', 'KategoriController@update')->name('admin.kategori.update');
     Route::get('/{id}','KategoriController@show')->name('admin.kategori.show');
     Route::post('/delete/{id}','KategoriController@destroy')->name('admin.kategori.destroy');
     });
   
     //Ukiran 
-    Route::group(['prefix' => 'Ukiran'], function () {
-      Route::get('/','UkiranController@index')->name('admin.ukiran');
-      Route::get('/create','UkiranController@create')->name('admin.ukiran.create');
-      Route::post('/store','UkiranController@store')->name('admin.ukiran.store');
+    Route::group(['prefix' => 'produk'], function () {
+      Route::get('/','ProdukController@index')->name('admin.produk');
+      Route::get('/create','ProdukController@create')->name('admin.produk.create');
+      Route::post('/store','ProdukController@store')->name('admin.produk.store');
       Route::get('/update/{id}', 'UkiranController@edit')->name('admin.ukiran.edit');
-      Route::post('/update/{id}', 'UkiranController@update')->name('admin.ukiran.update');
+      Route::post('/update', 'ProdukController@update')->name('admin.produk.update');
       Route::get('/{id}','UkiranController@show')->name('admin.ukiran.show');
       Route::post('/delete/{id}','UkiranController@destroy')->name('admin.ukiran.destroy');
     });

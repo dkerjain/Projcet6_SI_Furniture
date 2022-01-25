@@ -32,28 +32,34 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Data Kategori</h3>
-                <button type="button" class="btn btn-primary">Primary</button>
+                <div class="row">
+                  <div class="col-10">
+                      <h3 class="card-title mt-3"><b>Data Kategori</b></h3>
+                  </div>
+                  <div class="col-2">
+                      <button  class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-kategori">Tambah Kategori</button>
+                  </div>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr style="background: white; color:black;">
-                      <th>Rendering engine</th>
-                      <th>Browser</th>
-                      <th>Platform(s)</th>
-                      <th>Engine version</th>
-                      <th>CSS grade</th>
+                      <th>Id Kategori</th>
+                      <th>Nama Kategori</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Other browsers</td>
-                      <td>All others</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>U</td>
+                      <td>ID001</td>
+                      <td>Meja</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-kategori"><i class="nav-icon fas fa-edit" ></i></button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-kategori"><i class="nav-icon fas fa-image" ></i></button>
+                        <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -67,6 +73,110 @@
       
     </div>
   </section>
+
+  <!-- Modall -->
+      <!-- /.modal Input-->
+        <div class="modal fade" id="modal-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Nama Kategori</label>
+                                <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">Input Foto</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+
+      <!-- /.modal Foto -->
+        
+        <div class="modal fade" id="foto-kategori">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Foto Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="item form-group" style="text-align:center;">
+                          <img src="{{asset('image/produk/meja1.jpg')}}" style="width:250px; height:250px;">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      <!-- /.modal -->
+
+      <!-- /.modal Edit-->
+        <div class="modal fade" id="edit-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.update') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                          <div class="form-group">
+                              <label for="exampleInputPassword1">Nama Kategori</label>
+                              <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                          </div>
+                          <div class="form-group">
+                              <label for="exampleInputFile">Input Foto</label>
+                              <div class="input-group">
+                                  <div class="custom-file">
+                                      <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
 
 @endsection
 
@@ -120,6 +230,18 @@
       icon: 'success',
       title: 'Anda Berhasil Login'
     })
+  </script>
+@endif
+
+@if (session('success'))
+  <script>
+      Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Data Barang Berhasil Disimpan',
+          showConfirmButton: false,
+          timer: 2000
+      }); 
   </script>
 @endif
 

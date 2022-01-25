@@ -31,7 +31,8 @@ class ProdukController extends Controller
     public function index()
     {
       $produk = Produk::with('ukiran','kategori','picture')->get();
-      return view('admin.produk.index',compact('picture','produk'));
+      $kategori = Kategori::all();
+      return view('admin.produk.index',compact('produk','kategori'));
     }
 
     /**
