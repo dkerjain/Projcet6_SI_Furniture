@@ -1,202 +1,392 @@
 @extends('admin.layout.master')
 @section('title') Penjualan @endsection
-@section('style')
-<style>
-.phone-button{
-  border-radius: 45px !important;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-</style>
+@section('css')
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/daterangepicker/daterangepicker.css') }}">
+
 @endsection
+
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="card mt-0">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-9 col-12">
-            <h4 class="my-1 text-success font-weight-bold">Daftar Transaksi Penjualan</h4>
-            <p class="my-1">Berikut adalah daftar transaksi penjualan Bedug Langgeng</p>
-          </div>
-          <div class="col-md-3 col-12">
-            <a href="{{route('admin.history')}}" type="button" class="btn btn-success btn-block" name="button"><i class="material-icons mr-2">history</i>History Penjualan</a>
-          </div>
-          <div class="col-md-3 col-12">
-            <a href="{{route('admin.order.create')}}" type="button" class="btn btn-success btn-block" name="button"><i class="material-icons mr-2">add_circle</i>Buat Nota Pemesanan</a>
-          </div>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><b>Penjualan</b></h1>
         </div>
       </div>
+      <!-- /.container-fluid -->
     </div>
-  </div>
-  @if ($message = Session::get('success'))
-  <div class="col-12">
-  <div class="alert alert-success alert-with-icon" data-notify="container">
-    <i class="material-icons" data-notify="icon">check_circle</i>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <i class="material-icons">close</i>
-    </button>
-    <span data-notify="message">{{ $message }}</span>
-  </div>
-  </div>
-  @endif
-  @if ($message = Session::get('error'))
-  <div class="col-12">
-  <div class="alert alert-danger alert-with-icon" data-notify="container">
-    <i class="material-icons" data-notify="icon">cancel</i>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <i class="material-icons">close</i>
-    </button>
-    <span data-notify="message">{{ $message }}</span>
-  </div>
-  </div>
-  @endif
-  <!-- search -->
-  <div class="col-12">
-    <div class="card mt-0">
-      <div class="card-body">
-        <!-- <div class="input-group mx-md-2 mt-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text padding-src">
-              <i class="material-icons">search</i>
-            </span>
-          </div>
-          <input type="text" class="form-control mr-4" id="myInput" onkeyup="myFunction()" placeholder="Cari...">
-        </div> -->
-        <div class="row mx-md-3 mt-3 pt-2">
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Tanggal dan Pegawai -->
+    
+      <div class="row">
           <div class="col-12">
-            <div class="table-responsive">
-              <table id="penjualan-table" class="table" style="overflow-x:auto;">
-                <thead class="text-success">
-                  <th class="font-weight-normal" style="min-width:60px;"><p class="mb-2 mr-3">No</p></th>
-                  <th class="font-weight-normal" style="min-width:140px;"><p class="mb-2 mr-3">Tanggal Pembelian</p></th>
-                  <th class="font-weight-normal" style="min-width:120px;"><p class="mb-2 mr-3">Nama Customer</p></th>
-                  <th class="font-weight-normal" style="min-width:150px;"><p class="mb-2 mr-3">Nomor Telepon</p></th>
-                 <th class="font-weight-normal" style="min-width:80px;"><p class="mb-2 mr-3">Bank</p></th>
-                  <th class="font-weight-normal" style="min-width:100px;"><p class="mb-2 mr-3">Harga Produk</p></th>
-                  <th class="font-weight-normal" style="min-width:100px;"><p class="mb-2 mr-3">Biaya Pengiriman</p></th>
-                  <th class="font-weight-normal" style="min-width:80px;"><p class="mb-2 mr-3">Pembayaran</p></th>
-                  <th class="font-weight-normal" style="min-width:80px;"><p class="mb-2 mr-3">Tindakan</p></th>
-                  <th class="font-weight-normal" style="min-width:120px;"><p class="mb-2 mr-3">Aksi</p></th>
-                </thead>
-                <tbody>
-                  @for($i=0;$i<count($order);$i++)
-                    <tr>
-                      <td>{{$i+1}}</td>
-                      <td>{{date_format($order[$i]->created_at,"d F Y H:i")}}</td>
-                      <td>{{$order[$i]->customer->nama_customer}}</td>
-                      <td>
-                        <a href="https://api.whatsapp.com/send?phone={{$order[$i]->customer->nomor_telepon}}&text=Hai%20{{$order[$i]->customer->nama_customer}}%20,%20kami%20Bedug%20Langgeng%20Silahkan%20Klik%20link%20untuk%20Melakukan%20Transaksi%20{{route('public.pembayaran',['id'=>$order[$i]])}}" class="btn btn-success btn-sm phone-button"><i class="fa fa-phone mr-2" aria-hidden="true"></i>{{$order[$i]->customer->nomor_telepon}}</a>
-                      </td>
-                      <td>{{$order[$i]->pembayaran->bank_pembayaran}}</td>
-                      <td>Rp {{ number_format($order[$i]->biaya_total_produk, 0, ',', '.') }}</td>
-                      <td>{{ number_format($order[$i]->biaya_pengiriman, 0, ',', '.') }}
-                      @if($order[$i]->pembayaran->status_pembayaran==0)
-                      <td><button class="btn btn-sm btn-danger">Belum</button></td>
-                      @else
-                      <td><button class="btn btn-sm btn-success">Lunas</button></td>
-                      @endif
-
-                      @if($order[$i]->status==0)
-                      <td><button class="btn btn-sm btn-danger">Sedang di Proses</button></td>
-                      @else
-                      <td><button class="btn btn-sm btn-danger">Dalam Pengiriman</button></td>
-
-                      @endif
-
-                      <td class="td-actions">
-                        <!-- Lihat Foto -->
-                        <a type="button" data-toggle="modal" data-target="#foto{{$i}}" rel="tooltip" title="Lihat Foto" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">insert_photo</i>
-                        </a>
-                        <!--Print Nota -->
-                        <a href="{{route('admin.order.print',['id'=>$order[$i]->id])}}" type="button" rel="tooltip" title="Print Nota" class="btn btn-success btn-link btn-sm">
-                          <i class="material-icons">print</i>
-                        </a>
-                        <!-- edit order -->
-                        <a href="{{route('admin.order.edit',['id'=>$order[$i]->id])}}" type="button" rel="tooltip" title="Edit Nota" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <!-- hapus order -->
-                        <!--<button type="button" data-toggle="modal" data-target="#delete{{$i}}" rel="tooltip" title="Hapus Nota" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>-->
-                        </button>
-                      </td>
-                      <!-- modal foto -->
-                      <div class="modal fade" id="foto{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <div class="row mb-3">
-                                <div class="col-md-8 col-8">
-                                  <h5 class="modal-title mt-2">Bukti Transfer</h5>
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-3">
+                    <a href="{{route('admin.penjualan.create')}}"><button  class="btn btn-primary btn-block">Tambah Penjualan</button></a>
+                  </div>
+                  <div class="col-6">
+                  </div>
+                  <div class="col-3">
+                      <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
                                 </div>
-                                <div class="col-md-4 col-4">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <div class="col-12" align="center">
-                                  <img src="{{asset($order[$i]->pembayaran->bukti_pembayaran)}}" class="w-50" alt="">
-                                </div>
-                              </div>
-                              <div align="right">
-                                <button type="button" class="btn btn-success" data-dismiss="modal">Tutup</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- modal hapus -->
-
-                      <div class="modal fade" id="delete{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <div class="row mb-3">
-                               <div class="col-md-8 col-8">
-                                  <h5 class="modal-title mt-2">Hapus Nota</h5>
-                                </div>
-                                <div class="col-md-4 col-4">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <div class="col-12">
-                                  <form id="deletenota{{$i}}" action="{{ route('admin.order.destroy',['id'=>$order[$i]->id]) }}" method="post" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                  <p class="mb-1">Apakah anda yakin menghapus Nota ini ?</p>
+                                <form action="/laporan/report" method="get">
+                                  <div class="input-prepend input-group">
+                                    <input type="text" name="date" class="form-control float-right" id="reservation">
+                                    <button class="btn btn-secondary" type="submit">Filter</button>
+                                  </div>
                                 </form>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr style="background: white; color:black;">
+                      <th>Id Penjualan</th>
+                      <th>Tanggal Penjualan</th>
+                      <th>Nama Pembeli</th>
+                      <th>No Telfon</th>
+                      <th>Jasa Kurir</th>
+                      <th>Biaya Pengiriman</th>
+                      <th>Biaya Produk</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>PEN001</td>
+                      <td>16 Januari 2022</td>
+                      <td>Rista</td>
+                      <td>0897234567</td>
+                      <td>J&T</td>
+                      <td>Rp. 20.000</td>
+                      <td>Rp. 350.000</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detail-penjualan"><i class="nav-icon fas fa-edit" ></i></button>
+                         
+                          <!-- /.modal Detail Penjualan-->
+                            <div class="modal fade" id="detail-penjualan">
+                              <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h4 class="modal-title">Detail Data Penjualan</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label>ID Penjualan</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="PEN001" disabled>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label>Jasa Kurir</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="J&T" disabled>
+                                          </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label>Biaya Produk</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Rp. 350.000" disabled>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label>Biaya Pengiriman</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Rp. 20.000" disabled>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                          <div class="form-group">
+                                            <label>Total Pembayaran</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Rp. 370.000" disabled>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <table id="example2" class="table table-bordered table-hover">
+                                      <thead>
+                                      <tr>
+                                        <th>Produk</th>
+                                        <th>Jumlah</th>
+                                        <th>Sub Total</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <!-- Code Menampilkan Data -->
+                                              <td>PRD001</td>
+                                              <td>1</td>
+                                              <td>Rp. 350.000</td>
+                                          </tr>
+                                      </tbody>
+                                    </table>
+                                    
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
-                              </div>
-                              <div align="right">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="submit" form="deletenota{{$i}}" class="btn btn-danger">Hapus</button>
+                                <!-- /.modal-content -->
                               </div>
                             </div>
+                          <!-- /.End modal -->
+
+                        <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-kategori"><i class="nav-icon fas fa-image" ></i></button> -->
+                        <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+      
+    </div>
+  </section>
+
+  <!-- Modall -->
+      <!-- /.modal Input-->
+        <div class="modal fade" id="modal-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Nama Kategori</label>
+                                <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">Input Foto</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+      <!-- /.modal -->
+
+      <!-- /.modal Foto -->
+        
+        <div class="modal fade" id="foto-kategori">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Foto Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="item form-group" style="text-align:center;">
+                          <img src="{{asset('image/produk/meja1.jpg')}}" style="width:250px; height:250px;">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      <!-- /.modal -->
+
+      <!-- /.modal Edit-->
+        <div class="modal fade" id="edit-kategori">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Data Kategori</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.kategori.update') }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}         
+                        <div class="modal-body">
+                          <div class="form-group">
+                              <label for="exampleInputPassword1">Nama Kategori</label>
+                              <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
+                          </div>
+                          <div class="form-group">
+                              <label for="exampleInputFile">Input Foto</label>
+                              <div class="input-group">
+                                  <div class="custom-file">
+                                      <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                  </div>
+                              </div>
                           </div>
                         </div>
-                      </div>
-
-                    </tr>
-                  @endfor
-                </tbody>
-              </table>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
             </div>
-          </div>
+            <!-- /.modal-dialog -->
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <!-- /.modal -->
+
+      
+
 @endsection
+
 @section('script')
-<script>
-  $("#penjualan").addClass("active");
-  $('#penjualan-table').DataTable();
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+<script src="{{ asset('/assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('/assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      let start = moment().startOf('month')
+      let end = moment().endOf('month')
+      
+      
+      $('#reservation').daterangepicker({
+          startDate: start,
+          endDate: end
+        }, function(first, last) {
+            })
+  })
 </script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+
+@if (session('login'))
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Anda Berhasil Login'
+    })
+  </script>
+@endif
+
+@if (session('success'))
+  <script>
+      Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Data Barang Berhasil Disimpan',
+          showConfirmButton: false,
+          timer: 2000
+      }); 
+  </script>
+@endif
+
+
 @endsection

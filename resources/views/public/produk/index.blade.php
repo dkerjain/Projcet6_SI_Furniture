@@ -1,6 +1,6 @@
 @extends('public.layout.master')
 @section('title')
-Produk - Bedug Langgeng
+Produk - DOMUS
 @endsection
 @section('style')
 <style>
@@ -45,8 +45,8 @@ Produk - Bedug Langgeng
     <div class="row">
       <div class="col">
         <div class="section_title text-center">
-          <h2>Produk Terbaik</h2>
-          <div>Temukan produk terbaik Bedug di Indonesia </div>
+          <h2>Furniture Unik</h2>
+          <div>Koleksi Furniture Unik dan Berkualitas</div>
         </div>
       </div>
     </div>

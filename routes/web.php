@@ -57,6 +57,20 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
       Route::get('/download/{id}','OrderController@download')->name('admin.order.download');
       Route::post('/delete/{id}','OrderController@destroy')->name('admin.order.destroy');
       });
+  Route::group(['prefix' => 'penjualan'], function () {
+    Route::get('/','OrderController@index')->name('admin.order');
+    // Route::get('/history','OrderController@history')->name('admin.history');
+    Route::get('/create','OrderController@create')->name('admin.penjualan.create');
+    Route::post('/store','OrderController@store')->name('admin.order.store');
+    Route::get('/update/{id}', 'OrderController@edit')->name('admin.order.edit');
+    Route::post('/update/{id}', 'OrderController@update')->name('admin.order.update');
+    Route::get('/{id}','OrderController@show')->name('admin.order.show');
+    Route::get('/print/{id}','OrderController@print')->name('admin.order.print');
+    Route::get('/print-view/{id}','OrderController@printView')->name('admin.order.print.view');
+    Route::get('/download/{id}','OrderController@download')->name('admin.order.download');
+    Route::post('/delete/{id}','OrderController@destroy')->name('admin.order.destroy');
+    
+    });
   
     //pembayaran
     Route::group(['prefix' => 'pembayaran'], function () {
