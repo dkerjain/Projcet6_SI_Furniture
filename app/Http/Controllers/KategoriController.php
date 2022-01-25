@@ -55,20 +55,15 @@ class KategoriController extends Controller
         $tambah = new Kategori;
         $tambah->nama_kategori = $request->nama_kategori;
         $tambah->save();
-        if($request->hasfile('image')){
-          //membuat path storage foto
-          $path = 'kategori/'.$tambah->id;
-          //proses cek direktori
-          if(!Storage::disk('public')->exists($path)){
-            Storage::disk('public')->makeDirectory($path);
-          }
-          //proses upload
-          $extension = $request->image->getClientOriginalExtension();
-          $filename = $tambah->nama_kategori.'.'.$extension;
-          $request->image->storeAs($path, $filename, 'public');
-          //save ke database
-          $tambah->url_photo = 'storage/'.$path.'/'.$filename;
-        }
+        
+        $file = $request->file('image');
+        $nama_foto = $tambah->id.'_'.$request->file('image')->getClientOriginalName();
+        $path_foto = '/image/kategori/'.$nama_foto;
+
+        // Simpan file ke public
+        $file->move('image/kategori', $nama_foto);
+        //save ke database
+        $tambah->url_photo = $path_foto;
         $tambah->save();
         return redirect()->route('admin.kategori')->with(['success' => 'Kategori berhasil ditambahkan']);
     }
@@ -106,20 +101,14 @@ class KategoriController extends Controller
     {
         $kategori = Kategori::find($request->id);
         $kategori->nama_kategori = $request->nama_kategori;
-        if($request->hasfile('image')){
-          //membuat path storage foto
-          $path = 'kategori/'.$kategori->id;
-          //proses cek direktori
-          if(!Storage::disk('public')->exists($path)){
-            Storage::disk('public')->makeDirectory($path);
-          }
-          //proses upload
-          $extension = $request->image->getClientOriginalExtension();
-          $filename = $kategori->nama_kategori.'.'.$extension;
-          $request->image->storeAs($path, $filename, 'public');
-          //save ke database
-          $kategori->url_photo = 'storage/'.$path.'/'.$filename;
-        }
+        $file = $request->file('image');
+        $nama_foto = $request->id.'_'.$request->file('image')->getClientOriginalName();
+        $path_foto = '/image/kategori/'.$nama_foto;
+
+        // Simpan file ke public
+        $file->move('image/kategori', $nama_foto);
+        //save ke database
+        $kategori->url_photo = $path_foto;
         $kategori->save();
         return redirect()->route('admin.kategori')->with(['success' => 'Kategori berhasil diperbarui']);
     }

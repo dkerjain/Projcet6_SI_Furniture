@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2022 at 05:47 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- Generation Time: Jan 25, 2022 at 08:33 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,22 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `si_adhis`
+-- Database: `db_adhis`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `carousel`
---
-
-CREATE TABLE `carousel` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `url_photo` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -58,7 +44,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `ID_KELURAHAN`, `nomor_telepon`, `email`, `nama_customer`, `alamat`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(14, 42016, '085731675712', 'Annisa@gmail.com', 'Annisapk', 'Jl Melon', '2021-07-09 01:12:34', '2021-07-09 01:13:11', NULL);
+(15, 36530, '08765547899', 'adhis@gmail.com', 'Adhis', 'Jl. Mawar', '2022-01-25 08:51:03', '2022-01-25 08:51:03', NULL),
+(16, 14815, '08324719922', 'disa@gmail.com', 'Disa', 'Jl. Kupu-kupu', '2022-01-25 08:53:55', '2022-01-25 08:53:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,13 +67,9 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id`, `nama_kategori`, `url_photo`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Bedug', 'storage/kategori/1/Bedug.jpg', '2021-01-14 09:45:48', '2021-06-02 07:38:45', NULL),
-(2, 'Kentongan', 'storage/kategori/2/Kentongan.jpg', '2021-01-14 09:45:48', '2021-01-14 20:06:12', NULL),
-(3, 'Penabuh', 'storage/kategori/3/Penabuh.jpg', '2021-01-14 09:45:48', '2021-01-14 20:06:23', NULL),
-(4, 'Mimbar', 'storage/kategori/4/Mimbar.jpg', '2021-01-14 09:45:48', '2021-01-14 20:06:35', NULL),
-(5, 'Jimbe', 'storage/kategori/5/Jimbe.jpg', '2021-01-17 07:23:53', '2021-01-17 07:23:53', NULL),
-(6, 'Ketipung', 'storage/kategori/6/Ketipung.jpg', '2021-01-18 06:14:23', '2021-01-18 06:14:24', NULL),
-(7, 'Rebana', 'storage/kategori/7/Rebana.jpg', '2021-01-20 19:38:19', '2021-01-20 19:38:19', NULL);
+(8, 'Kursi', '/image/kategori/8_kursi.PNG', '2022-01-25 01:40:04', '2022-01-25 09:45:37', NULL),
+(9, 'Meja', '/image/kategori/9_meja.PNG', '2022-01-25 04:05:19', '2022-01-25 09:52:52', NULL),
+(12, 'Jam', '/image/kategori/12_jam.PNG', '2022-01-25 10:05:38', '2022-01-25 10:05:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -90374,7 +90357,8 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `id_customer`, `jasa_kurir`, `jumlah_item`, `berat_total`, `biaya_total_produk`, `biaya_pengiriman`, `status`, `catatan`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(17, 14, 0, 1, 3, 200000, 300000, 0, 'oke', '2021-07-09 01:12:34', '2021-07-09 01:15:26', NULL);
+(18, 15, 1, 1, 5, 350000, 20000, 1, NULL, '2022-01-25 08:51:03', '2022-01-25 12:31:17', NULL),
+(19, 16, 1, 1, 5, 120000, 0, 0, NULL, '2022-01-25 08:53:55', '2022-01-25 08:53:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -90399,7 +90383,8 @@ CREATE TABLE `order_list` (
 --
 
 INSERT INTO `order_list` (`id`, `id_order`, `id_produk`, `jumlah`, `harga`, `harga_subtotal`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(69, 17, 13, 1, 200000, 200000, '2021-07-09 01:15:26', '2021-07-09 01:15:26', NULL);
+(70, 18, 14, 1, 350000, 350000, '2022-01-25 08:51:03', '2022-01-25 08:51:03', NULL),
+(71, 19, 15, 1, 120000, 120000, '2022-01-25 08:53:55', '2022-01-25 08:53:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -90443,7 +90428,8 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id`, `id_customer`, `id_order`, `status_pembayaran`, `bank_pembayaran`, `bukti_pembayaran`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(17, 14, 17, 1, 'BCA', 'storage/pembayaran/17/WhatsApp Image 2020-09-15 at 16.49.14.jpeg', '2021-07-09 01:12:34', '2021-07-09 01:15:26', NULL);
+(18, 15, 18, 1, '', '', '2022-01-25 08:51:03', '2022-01-25 12:31:17', NULL),
+(19, 16, 19, 0, '', '', '2022-01-25 08:53:55', '2022-01-25 08:53:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -90466,22 +90452,9 @@ CREATE TABLE `picture` (
 --
 
 INSERT INTO `picture` (`id`, `id_produk`, `url_photo`, `file_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'storage/produk/1/IMG_20200223_150231.jpg', 'IMG_20200223_150231.jpg', '2021-01-14 19:36:33', '2021-01-14 19:36:33', NULL),
-(3, 2, 'storage/produk/2/photostudio_1541752687177.jpg', 'photostudio_1541752687177.jpg', '2021-01-14 20:04:55', '2021-01-14 20:04:55', NULL),
-(4, 3, 'storage/produk/3/photostudio_1541751310943.jpg', 'photostudio_1541751310943.jpg', '2021-01-16 06:09:41', '2021-01-16 06:09:41', NULL),
-(5, 4, 'storage/produk/4/photostudio_1541751382291.jpg', 'photostudio_1541751382291.jpg', '2021-01-16 06:18:10', '2021-01-16 06:18:10', NULL),
-(6, 5, 'storage/produk/5/photostudio_1541754872243.jpg', 'photostudio_1541754872243.jpg', '2021-01-16 06:24:58', '2021-01-16 06:24:58', NULL),
-(7, 6, 'storage/produk/6/photostudio_1541751181965.jpg', 'photostudio_1541751181965.jpg', '2021-01-16 06:27:26', '2021-01-16 06:27:26', NULL),
-(8, 7, 'storage/produk/7/photostudio_1605079999180.jpg', 'photostudio_1605079999180.jpg', '2021-01-17 07:22:45', '2021-01-17 07:22:45', NULL),
-(9, 7, 'storage/produk/7/photostudio_1605080220946.jpg', 'photostudio_1605080220946.jpg', '2021-01-17 07:22:45', '2021-01-17 07:22:45', NULL),
-(10, 8, 'storage/produk/8/photostudio_1541751310943.jpg', 'photostudio_1541751310943.jpg', '2021-01-18 06:13:29', '2021-01-18 06:13:29', NULL),
-(11, 9, 'storage/produk/9/2.jpg', '2.jpg', '2021-01-20 19:41:28', '2021-01-20 19:41:28', NULL),
-(12, 9, 'storage/produk/9/4.jpg', '4.jpg', '2021-01-20 19:41:28', '2021-01-20 19:41:28', NULL),
-(13, 10, 'storage/produk/10/WhatsApp Image 2021-03-03 at 12.13.17.jpeg', 'WhatsApp Image 2021-03-03 at 12.13.17.jpeg', '2021-03-04 01:40:21', '2021-03-04 01:40:21', NULL),
-(14, 11, 'storage/produk/11/photostudio_1541749863369.jpg', 'photostudio_1541749863369.jpg', '2021-05-31 03:41:32', '2021-05-31 03:41:32', NULL),
-(15, 12, 'storage/produk/12/photostudio_1541751181965.jpg', 'photostudio_1541751181965.jpg', '2021-06-06 18:46:19', '2021-06-06 18:46:19', NULL),
-(16, 13, 'storage/produk/13/photostudio_1541752687177.jpg', 'photostudio_1541752687177.jpg', '2021-06-17 19:35:22', '2021-06-17 19:35:22', NULL),
-(17, 13, 'storage/produk/13/15360526534621.jpg', '15360526534621.jpg', '2021-06-17 19:35:23', '2021-06-17 19:35:23', NULL);
+(18, 15, '/image/produk/15_kursi rustic.PNG', '15_kursi rustic.PNG', '2022-01-25 10:13:31', '2022-01-25 10:13:31', NULL),
+(19, 14, '/image/produk/14_meja besi.PNG', '14_meja besi.PNG', '2022-01-25 10:14:10', '2022-01-25 10:15:46', NULL),
+(20, 16, '/image/produk/16_jam dinding klasik.PNG', '16_jam dinding klasik.PNG', '2022-01-25 10:15:07', '2022-01-25 10:15:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -90492,16 +90465,14 @@ INSERT INTO `picture` (`id`, `id_produk`, `url_photo`, `file_name`, `created_at`
 CREATE TABLE `produk` (
   `id` int(10) UNSIGNED NOT NULL,
   `id_kategori` int(10) UNSIGNED NOT NULL,
-  `id_ukiran` int(10) UNSIGNED NOT NULL,
   `nama_produk` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `kode_barang` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nomor_barcode` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `keterangan` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `stok` int(11) NOT NULL,
   `harga` int(11) NOT NULL,
   `berat` int(11) NOT NULL,
-  `status_diskon` int(11) NOT NULL,
   `status_produk` int(11) NOT NULL,
+  `status_diskon` int(11) DEFAULT NULL,
   `diskon` int(11) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -90512,20 +90483,10 @@ CREATE TABLE `produk` (
 -- Dumping data for table `produk`
 --
 
-INSERT INTO `produk` (`id`, `id_kategori`, `id_ukiran`, `nama_produk`, `kode_barang`, `nomor_barcode`, `keterangan`, `stok`, `harga`, `berat`, `status_diskon`, `status_produk`, `diskon`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Bedug Ukuran 60 terbaru', 'bdg60', 'Pro0001', 'FREE ONGKIR WILAYAH JAWA TIMUR!!!\r\nFREE penabuh + kentongan + penyangga.\r\nBedug Ukuran 60 degan kualitas premium.\r\nTerbuat dari kayu jati pilihan dan kulit sapi berkualitas premium.\r\nMembuat masjid/mushola menjadi lebih indah.', 7, 100000000, 60, 0, 1, NULL, NULL, '2021-01-14 19:36:32', '2021-07-07 20:31:35'),
-(2, 2, 1, 'Kentongan Premium', 'kentongan', 'Bdg0002', 'Kentongan premium', 0, 2500000, 10, 0, 1, 0, NULL, '2021-01-14 20:04:54', '2021-06-08 02:54:36'),
-(3, 3, 1, 'Penabuh mini', 'pnb mini', 'Pnb0001', 'Penabuh mini degan kualitas premium.\r\nTerbuat dari kayu jati pilihan dan karet pilihan.\r\nMembuat bedug semakin enak ditabuhnya', 7, 200000, 1, 1, 1, 5, NULL, '2021-01-16 06:09:41', '2021-01-20 19:24:17'),
-(4, 4, 2, 'Mimbar Masjid', 'mmbr masjid', 'Mmbr0001', 'Mimbar degan kualitas premium.\r\nTerbuat dari kayu jati pilihan dan diplitur dengan warna yang mengkilap nan indah.\r\nFree Ongkir JATIM!!!', 4, 2000000, 10, 0, 1, 0, NULL, '2021-01-16 06:18:09', '2021-07-08 07:12:53'),
-(5, 1, 2, 'Bedug Jumbo 200', 'bdgJ', 'Bdg0002', 'FREE ONGKIR WILAYAH JAWA TIMUR!!!\r\nFREE penabuh + kentongan + penyangga.\r\nBedug Ukuran 200 degan kualitas premium.\r\nTerbuat dari kayu jati pilihan dan kulit sapi berkualitas premium.\r\nMembuat masjid/mushola menjadi lebih indah.', 8, 40000000, 200, 1, 1, 15, NULL, '2021-01-16 06:24:58', '2021-01-20 19:30:56'),
-(6, 2, 1, 'Kentongan Premium (II)', 'ktgP2', 'ktg0002', 'FREE ONGKIR WILAYAH JAWA TIMUR!!!\r\nFREE penyangga.\r\nKentongan degan kualitas premium seri II\r\nTerbuat dari kayu jati pilihan.\r\nMembuat masjid/mushola menjadi lebih indah.', 19, 2500000, 5, 0, 1, 0, NULL, '2021-01-16 06:27:26', '2021-01-16 06:56:20'),
-(7, 1, 2, 'Bedug ukuran 30', 'bdg30', 'bdg0003', 'Bedug kualitas terbaik', 14, 3000000, 30, 1, 1, 20, NULL, '2021-01-17 07:22:44', '2021-06-18 01:29:36'),
-(8, 3, 1, 'Penabuh mini', 'Pnb00001', 'Pro0001', 'Penabuh', 0, 300000, 2, 1, 1, 10, NULL, '2021-01-18 06:13:29', '2021-06-22 00:26:06'),
-(9, 7, 1, 'Rebana Premium', 'rbnP', 'rbn0001', 'Rebana kualitas premium terbaru', 11, 200000, 2, 1, 1, 10, NULL, '2021-01-20 19:41:28', '2021-05-07 05:05:00'),
-(10, 1, 1, 'aa', '2', 'aa', 'qqq', 1, 12, 2, 0, 1, 0, NULL, '2021-03-04 01:40:21', '2021-03-04 01:40:21'),
-(11, 1, 1, 'Bedug Ukuran 80', 'B00001', 'Bdg0002', 'Mantab banget', 4, 5000000, 80, 0, 1, 10, NULL, '2021-05-31 03:40:52', '2021-05-31 03:40:52'),
-(12, 2, 2, 'Kentongan Premium Super', 'kentong01', 'kentgn01', 'Mantab', 3, 250000, 5, 1, 1, 10, NULL, '2021-06-06 18:46:18', '2021-06-06 18:50:18'),
-(13, 2, 1, 'Kentongan Premium (III)', 'ktg1', 'ktg001', 'Kentongan Premiun Free  Ongkir Jawa Timur', 4, 200000, 3, 0, 1, 0, NULL, '2021-06-17 19:35:22', '2021-07-09 01:15:26');
+INSERT INTO `produk` (`id`, `id_kategori`, `nama_produk`, `kode_barang`, `keterangan`, `stok`, `harga`, `berat`, `status_produk`, `status_diskon`, `diskon`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(14, 8, 'Meja Besi', 'MB001', 'Meja Besi Kuat', 4, 350000, 5, 1, 1, 10, NULL, '2022-01-25 04:09:52', '2022-01-25 10:15:46'),
+(15, 8, 'Armchair', 'K001', 'Kursi Rustic - Armchair', 3, 120000, 25, 1, 0, NULL, NULL, '2022-01-25 05:43:57', '2022-01-25 10:11:25'),
+(16, 12, 'Jam Dinding', 'Jm001', 'Jam Dinding Klasik', 4, 100000, 3, 1, 0, NULL, NULL, '2022-01-25 10:15:07', '2022-01-25 10:15:07');
 
 -- --------------------------------------------------------
 
@@ -90581,31 +90542,6 @@ INSERT INTO `provinsi` (`ID_PROVINSI`, `NAMA_PROVINSI`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ukiran`
---
-
-CREATE TABLE `ukiran` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `nama_ukiran` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url_photo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `ukiran`
---
-
-INSERT INTO `ukiran` (`id`, `nama_ukiran`, `url_photo`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'None', 'storage/ukiran/1/None.jpg', '2021-01-14 09:55:58', '2021-01-20 01:03:56', NULL),
-(2, 'Bunga melati', 'storage/ukiran/2/Bunga melati.jpg', '2021-01-16 06:01:25', '2021-01-20 19:40:01', NULL),
-(3, 'Kaligrafi', 'storage/ukiran/3/Kaligrafi.jpg', '2021-01-17 07:24:56', '2021-01-17 07:24:56', NULL),
-(4, 'Burung', 'storage/ukiran/4/Burung.jpg', '2021-01-20 19:39:14', '2021-01-20 19:39:14', NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -90622,22 +90558,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Annisa PK', 'annisa.putri.karlina@gmail.com', NULL, '$2y$10$iPS/1HHQKAZTQaA21vfEAOaGPr9r5fp6OrAb5tnOSR9JHG.ySs8A2', 'ImVXJ6d7nDsk89TumOE1J3OLiePips29TKP7W8oMMD5sHFypClm4bFRVRU1S', '2021-01-14 09:45:47', '2021-07-09 01:10:58', NULL),
-(2, 'Bayu RS', 'game.pak.bedjo@gmail.com', NULL, '$2y$10$HB/da1eyOnrxrhn1efzWN.b1DRceVkrOqlXfEl9LXeEgfH4HgoCdm', 'CO0PwPavLzVrXJxYGuiMXGd2uBA3CN6FE4XBhwAV51NtiVnDuWXoDY109HbS', '2021-01-14 09:45:48', '2021-07-08 08:15:48', NULL);
-
---
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `carousel`
---
-ALTER TABLE `carousel`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `customer`
@@ -90720,20 +90642,13 @@ ALTER TABLE `picture`
 --
 ALTER TABLE `produk`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `produk_id_kategori_foreign` (`id_kategori`),
-  ADD KEY `produk_id_ukiran_foreign` (`id_ukiran`);
+  ADD KEY `produk_id_kategori_foreign` (`id_kategori`);
 
 --
 -- Indexes for table `provinsi`
 --
 ALTER TABLE `provinsi`
   ADD PRIMARY KEY (`ID_PROVINSI`);
-
---
--- Indexes for table `ukiran`
---
-ALTER TABLE `ukiran`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -90747,22 +90662,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `carousel`
---
-ALTER TABLE `carousel`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -90774,37 +90683,31 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `picture`
 --
 ALTER TABLE `picture`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `ukiran`
---
-ALTER TABLE `ukiran`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -90864,8 +90767,7 @@ ALTER TABLE `picture`
 -- Constraints for table `produk`
 --
 ALTER TABLE `produk`
-  ADD CONSTRAINT `produk_id_kategori_foreign` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id`),
-  ADD CONSTRAINT `produk_id_ukiran_foreign` FOREIGN KEY (`id_ukiran`) REFERENCES `ukiran` (`id`);
+  ADD CONSTRAINT `produk_id_kategori_foreign` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

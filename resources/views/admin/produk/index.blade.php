@@ -115,7 +115,14 @@
                                                   <input type="text" class="form-control" min="0" id="diskon" name="diskon" value="{{$p->diskon}}">
                                               </div>
                                               <div class="form-group">
-                                                  <label>Kategori <span class="required">*</span></label>
+                                                  <label>Status Diskon <span class="required">*</span></label>
+                                                  <select class="form-control" required name="status_diskon">
+                                                    <option value="0">Non-Aktif</option>    
+                                                    <option value="1">Aktif</option>
+                                                  </select>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label>Status Produk <span class="required">*</span></label>
                                                   <select class="form-control" required name="status_produk">
                                                       <option value="1">Aktif</option>
                                                       <option value="0">Non-Aktif</option>
@@ -162,7 +169,7 @@
                                           <div class="item form-group" style="text-align:center;">
                                             @foreach($picture as $pc)
                                               @if($pc->id_produk == $p->id)
-                                              <img src="{{ $pc->url_photo }}" style="width:250px; height:250px;">
+                                              <img src="{{ asset($pc->url_photo) }}" style="width:250px; height:250px;">
                                               @endif
                                             @endforeach
                                           </div>
@@ -237,6 +244,13 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Diskon <span class="required"></span></label>
                                 <input type="text" class="form-control" min="0" id="diskon" name="diskon" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Status Diskon <span class="required">*</span></label>
+                                <select class="form-control" required name="status_diskon">
+                                  <option value="0">Non-Aktif</option>    
+                                  <option value="1">Aktif</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>

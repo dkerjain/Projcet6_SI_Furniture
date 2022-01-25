@@ -66,31 +66,53 @@
                       <th>Tanggal Penjualan</th>
                       <th>Nama Pembeli</th>
                       <th>No Telfon</th>
-                      <th>Jasa Kurir</th>
+                      <th>Pengiriman</th>
                       <th>Biaya Pengiriman</th>
-                      <th>Biaya Produk</th>
+                      <th>Total Biaya Produk</th>
                       <th>Status Pembayaran</th>
-                      <th>Status Penjualan</th>
+                      <th>Status Order</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($order as $o)
                     <tr>
-                      <td>PEN001</td>
-                      <td>16 Januari 2022</td>
-                      <td>Rista</td>
-                      <td>0897234567</td>
-                      <td>J&T</td>
-                      <td>Rp. 20.000</td>
-                      <td>Rp. 350.000</td>
-                      <td><button type="button" class="btn btn-danger">Belum Dibayar</button></td>
-                      <td><button type="button" class="btn btn-info">Sedang Diproses</button></td>
+                      <td>{{$o->id}}</td>
+                      <td>{{\Carbon\Carbon::parse($o->created_at)->translatedFormat('d-m-Y')}}</td>
+                      @foreach($customer as $c)
+                       @if($c->id == $o->id_customer)
+                        <td>{{$c->nama_customer}}</td>
+                        <td>{{$c->nomor_telepon}}</td>
+                        @endif
+                      @endforeach
+                      @if($o->jasa_kurir==0)
+                        <td>Diambil</td>
+                      @else
+                        <td>Jasa Kurir</td>
+                      @endif
+                      <td>Rp. {{ number_format($o->biaya_pengiriman) }}</td>
+                      <td>Rp. {{ number_format($o->biaya_total_produk) }}</td>
+                      @foreach($pembayaran as $pb)
+                        @if($pb->id_order == $o->id)
+                          @if($pb->status_pembayaran == 0)
+                            <td><button type="button" class="btn btn-danger">Belum Dibayar</button></td>
+                          @else
+                            <td><button type="button" class="btn btn-success">Lunas</button></td>
+                          @endif
+                        @endif
+                      @endforeach
+                      @if($o->status == 0)
+                        <td><button type="button" class="btn btn-danger">Belum Diproses</button></td>
+                      @elseif($o->status == 1)
+                        <td><button type="button" class="btn btn-info">Sedang Diproses</button></td>
+                      @elseif($o->status == 2)
+                        <td><button type="button" class="btn btn-success">Selesai</button></td>
+                      @endif
+                      
                       <td>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#detail-penjualan"><i class="nav-icon fas fa-sticky-note" ></i></button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-penjualan"><i class="nav-icon fas fa-edit" ></i></button>
-                         
-                          <!-- /.modal Detail Penjualan-->
-                            <div class="modal fade" id="detail-penjualan">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#detail-penjualan{{$o->id}}"><i class="nav-icon fas fa-sticky-note" ></i></button>
+                        <!-- /.modal Detail Penjualan-->
+                        <div class="modal fade" id="detail-penjualan{{$o->id}}">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -109,17 +131,21 @@
                                         </div>
                                         <div class="col-sm-4">
                                           <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="PEN001" disabled>
+                                            <input type="text" class="form-control" value="{{$o->id}}" disabled>
                                           </div>
                                         </div>
                                         <div class="col-sm-2">
                                           <div class="form-group">
-                                            <label>Jasa Kurir</label>
+                                            <label>Pengiriman</label>
                                           </div>
                                         </div>
                                         <div class="col-sm-4">
                                           <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="J&T" disabled>
+                                            @if($o->jasa_kurir==0)
+                                            <input type="text" class="form-control" value="Diambil" disabled>
+                                            @else
+                                            <input type="text" class="form-control" value="Jasa Kurir" disabled>
+                                            @endif
                                           </div>
                                         </div>
                                     </div>
@@ -132,7 +158,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                           <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Rp. 350.000" disabled>
+                                            <input type="text" class="form-control" value="Rp. {{number_format($o->biaya_total_produk)}}" disabled>
                                           </div>
                                         </div>
 
@@ -143,7 +169,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                           <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Rp. 20.000" disabled>
+                                            <input type="text" class="form-control" value="Rp. {{number_format($o->biaya_pengiriman)}}" disabled>
                                           </div>
                                         </div>
                                     </div>
@@ -155,7 +181,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                           <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Rp. 370.000" disabled>
+                                            <input type="text" class="form-control" value="Rp. {{number_format($o->biaya_pengiriman+$o->biaya_total_produk)}}" disabled>
                                           </div>
                                         </div>
                                     </div>
@@ -168,12 +194,20 @@
                                       </tr>
                                       </thead>
                                       <tbody>
+                                        @foreach($order_list as $ol)
+                                          @if($ol->id_order == $o->id)
                                           <tr>
                                               <!-- Code Menampilkan Data -->
-                                              <td>PRD001</td>
-                                              <td>1</td>
-                                              <td>Rp. 350.000</td>
+                                              @foreach($produk as $pr)
+                                                @if($ol->id_produk == $pr->id)
+                                                  <td>{{$pr->nama_produk}}</td>
+                                                @endif
+                                              @endforeach
+                                              <td>{{$ol->jumlah}}</td>
+                                              <td>Rp. {{number_format($ol->harga_subtotal)}}</td>
                                           </tr>
+                                          @endif
+                                        @endforeach
                                       </tbody>
                                     </table>
                                     
@@ -186,9 +220,10 @@
                               </div>
                             </div>
                           <!-- /.End modal -->
-
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-penjualan{{$o->id}}"><i class="nav-icon fas fa-edit" ></i></button>
+                         
                                 <!-- /.modal Edit-->
-                                  <div class="modal fade" id="edit-penjualan">
+                                  <div class="modal fade" id="edit-penjualan{{$o->id}}">
                                       <div class="modal-dialog modal-lg">
                                           <div class="modal-content">
                                               <div class="modal-header">
@@ -200,31 +235,22 @@
                                               <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
                                                   {{ csrf_field() }}         
                                                   <div class="modal-body">
-
-                                                  <div class="card text-white bg-primary mb-3">
-                                                    <center><img src="{{asset('image/logo.jpg')}}" style="width:250px; height:250px;" class="card-img-top" alt="..."></center>
-                                                    <div class="card-body">
-                                                      <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item">Meja Nakas</li>
-                                                        <li class="list-group-item">Kode Barang : BR001</li>
-                                                        <li class="list-group-item">Berat : 5 Kg</li>
-                                                        <li class="list-group-item">Harga : Rp 79.000</li>
-                                                        <li class="list-group-item">Jumlah : 1</li>
-                                                      </ul>
-                                                    </div>
-                                                  </div>
-
+                                                  <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
                                                       <div class="form-group">
-                                                          <label for="exampleInputPassword1">Jasa Kurir</label>
-                                                          <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" value="J&T" readonly>
+                                                          <label for="exampleInputPassword1">Pengiriman</label>
+                                                          <select class="form-control" required name="jasa_kurir">
+                                                              <option value="">-- Pilih Pengiriman --</option>
+                                                              <option value="0">Diambil</option>
+                                                              <option value="1">Jasa Kurir</option>
+                                                          </select>
                                                       </div>
                                                       <div class="form-group">
                                                           <label for="exampleInputPassword1">Biaya Pengiriman</label>
-                                                          <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" value="Rp. 89.000" readonly>
+                                                          <input type="text" class="form-control" required id="biaya_pengiriman" name="biaya_pengiriman" value="{{ $o->biaya_pengiriman }}">
                                                       </div>
                                                       <div class="form-group">
-                                                          <label for="exampleInputPassword1">Total Biaya</label>
-                                                          <input type="text" class="form-control bg-success color-palette" required id="exampleInputPassword1" name="nama" value="Rp. 89.000" readonly>
+                                                          <label for="exampleInputPassword1">Total Biaya Produk</label>
+                                                          <input type="text" class="form-control bg-success color-palette" required id="biaya_produk" name="biaya_produk" value="Rp. {{ number_format($o->biaya_total_produk) }}" readonly>
                                                       </div>
                                                       <div class="form-group">
                                                           <label>Status Pembayaran</label>
@@ -261,6 +287,7 @@
                         <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
                       </td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -274,109 +301,6 @@
     </div>
   </section>
 
-  <!-- Modall -->
-      <!-- /.modal Input-->
-        <div class="modal fade" id="modal-kategori">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Kategori</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">
-                        {{ csrf_field() }}         
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Nama Kategori</label>
-                                <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Input Foto</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-      <!-- /.modal -->
-
-      <!-- /.modal Foto -->
-        
-        <div class="modal fade" id="foto-kategori">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Foto Kategori</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="item form-group" style="text-align:center;">
-                          <img src="{{asset('image/produk/meja1.jpg')}}" style="width:250px; height:250px;">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-      <!-- /.modal -->
-
-      <!-- /.modal Edit-->
-        <div class="modal fade" id="edit-kategori">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Data Kategori</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="{{ route('admin.kategori.update') }}" method="POST" enctype="multipart/form-data">
-                        {{ csrf_field() }}         
-                        <div class="modal-body">
-                          <div class="form-group">
-                              <label for="exampleInputPassword1">Nama Kategori</label>
-                              <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" placeholder="Masukkan Nama Kategori">
-                          </div>
-                          <div class="form-group">
-                              <label for="exampleInputFile">Input Foto</label>
-                              <div class="input-group">
-                                  <div class="custom-file">
-                                      <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
-                                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                  </div>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-      <!-- /.modal -->
 
       
 

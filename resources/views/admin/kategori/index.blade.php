@@ -81,7 +81,7 @@
                                                 <label for="exampleInputFile">Input Foto</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg">
+                                                        <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     </div>
                                                 </div>
@@ -112,7 +112,7 @@
                                       </div>
                                       <div class="modal-body">
                                           <div class="item form-group" style="text-align:center;">
-                                            <img src="{{$k->url_photo}}" style="width:250px; height:250px;">
+                                            <img src="{{asset($k->url_photo)}}" style="width:250px; height:250px;">
                                           </div>
                                           <div class="modal-footer">
                                               <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
@@ -162,7 +162,7 @@
                                 <label for="exampleInputFile">Input Foto</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="image" id="image">
+                                        <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
                                 </div>

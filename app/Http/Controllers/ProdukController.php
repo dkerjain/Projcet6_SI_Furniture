@@ -65,30 +65,22 @@ class ProdukController extends Controller
       $produk->harga= $harga;
       $produk->berat= $request->berat;
       $produk->diskon= $request->diskon;
+      $produk->status_diskon = $request->status_diskon;
       $produk->status_produk = 1;
       $produk->keterangan= $request->keterangan;
       $produk->save();
 
-      if($request->hasfile('image')){
-            //membuat path storage foto
-            $path = 'produk/'.$produk->id;
-            //proses cek direktori
-            if(!Storage::disk('public')->exists($path)){
-              Storage::disk('public')->makeDirectory($path);
-            }
-            //proses upload
-            foreach($request->image as $file){
-            $extension = $file->getClientOriginalExtension();
-            $filename = $file->getClientOriginalName();
-            $file->storeAs($path, $filename, 'public');
-            //save ke database
-            Picture::create([
-              'id_produk' => $produk->id,
-              'url_photo' => 'storage/'.$path.'/'.$filename,
-              'file_name' => $filename
-            ]);
-          }
-      }
+        $file = $request->file('image');
+        $nama_foto = $produk->id.'_'.$request->file('image')->getClientOriginalName();
+        $path_foto = '/image/produk/'.$nama_foto;
+
+        // Simpan file ke public
+        $file->move('image/produk', $nama_foto);
+        Picture::create([
+          'id_produk' => $produk->id,
+          'url_photo' => $path_foto,
+          'file_name' => $nama_foto
+        ]);
       return redirect()->route('admin.produk')->with(['success' => 'Produk berhasil ditambahkan']);
     }
 
@@ -150,30 +142,21 @@ class ProdukController extends Controller
       $produk->harga= $harga;
       $produk->berat= $request->berat;
       $produk->diskon= $request->diskon;
+      $produk->status_diskon = $request->status_diskon;
       $produk->status_produk= $request->status_produk;
       $produk->keterangan= $request->keterangan;
       $produk->save();
 
-      if($request->hasfile('image')){
-            //membuat path storage foto
-            $path = 'produk/'.$produk->id;
-            //proses cek direktori
-            if(!Storage::disk('public')->exists($path)){
-              Storage::disk('public')->makeDirectory($path);
-            }
-            //proses upload
-            foreach($request->image as $file){
-            $extension = $file->getClientOriginalExtension();
-            $filename = $file->getClientOriginalName();
-            $file->storeAs($path, $filename, 'public');
-            //save ke database
-            Picture::create([
-              'id_produk' => $produk->id,
-              'url_photo' => 'storage/'.$path.'/'.$filename,
-              'file_name' => $filename
-            ]);
-          }
-      }
+        $file = $request->file('image');
+        $nama_foto = $produk->id.'_'.$request->file('image')->getClientOriginalName();
+        $path_foto = '/image/produk/'.$nama_foto;
+
+        // Simpan file ke public
+        $file->move('image/produk', $nama_foto);
+        Picture::where('id_produk',$request->id)->update([
+          'url_photo' => $path_foto,
+          'file_name' => $nama_foto
+        ]);
       return redirect()->route('admin.produk')->with(['success' => 'Produk berhasil diperbarui']);
     }
 
