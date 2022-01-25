@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-  <link rel="stylesheet" href="{{ asset('/assets/plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="{{ asset('/assets/plugins/daterangepicker/daterangepicker.css')}}">
 
 @endsection
 
@@ -33,7 +34,6 @@
               <div class="card-header">
                 <div class="row">
                   <div class="col-3">
-                    <a href="{{route('admin.penjualan.create')}}"><button  class="btn btn-primary btn-block">Tambah Penjualan</button></a>
                   </div>
                   <div class="col-6">
                   </div>
@@ -52,7 +52,8 @@
                                   </div>
                                 </form>
                             </div>
-                        </div>
+                      </div>
+
                   </div>
                 </div>
               </div>
@@ -68,6 +69,8 @@
                       <th>Jasa Kurir</th>
                       <th>Biaya Pengiriman</th>
                       <th>Biaya Produk</th>
+                      <th>Status Pembayaran</th>
+                      <th>Status Penjualan</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -80,8 +83,11 @@
                       <td>J&T</td>
                       <td>Rp. 20.000</td>
                       <td>Rp. 350.000</td>
+                      <td><button type="button" class="btn btn-danger">Belum Dibayar</button></td>
+                      <td><button type="button" class="btn btn-info">Sedang Diproses</button></td>
                       <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detail-penjualan"><i class="nav-icon fas fa-edit" ></i></button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#detail-penjualan"><i class="nav-icon fas fa-sticky-note" ></i></button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-penjualan"><i class="nav-icon fas fa-edit" ></i></button>
                          
                           <!-- /.modal Detail Penjualan-->
                             <div class="modal fade" id="detail-penjualan">
@@ -180,6 +186,76 @@
                               </div>
                             </div>
                           <!-- /.End modal -->
+
+                                <!-- /.modal Edit-->
+                                  <div class="modal fade" id="edit-penjualan">
+                                      <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h4 class="modal-title">Edit Data Penjualan</h4>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </div>
+                                              <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
+                                                  {{ csrf_field() }}         
+                                                  <div class="modal-body">
+
+                                                  <div class="card text-white bg-primary mb-3">
+                                                    <center><img src="{{asset('image/logo.jpg')}}" style="width:250px; height:250px;" class="card-img-top" alt="..."></center>
+                                                    <div class="card-body">
+                                                      <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">Meja Nakas</li>
+                                                        <li class="list-group-item">Kode Barang : BR001</li>
+                                                        <li class="list-group-item">Berat : 5 Kg</li>
+                                                        <li class="list-group-item">Harga : Rp 79.000</li>
+                                                        <li class="list-group-item">Jumlah : 1</li>
+                                                      </ul>
+                                                    </div>
+                                                  </div>
+
+                                                      <div class="form-group">
+                                                          <label for="exampleInputPassword1">Jasa Kurir</label>
+                                                          <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" value="J&T" readonly>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label for="exampleInputPassword1">Biaya Pengiriman</label>
+                                                          <input type="text" class="form-control" required id="exampleInputPassword1" name="nama" value="Rp. 89.000" readonly>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label for="exampleInputPassword1">Total Biaya</label>
+                                                          <input type="text" class="form-control bg-success color-palette" required id="exampleInputPassword1" name="nama" value="Rp. 89.000" readonly>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label>Status Pembayaran</label>
+                                                          <select class="form-control" required name="status_pembayaran">
+                                                              <option value="">-- Pilih Status Pembayaran --</option>
+                                                              <option value="0">Belum Lunas</option>
+                                                              <option value="1">Lunas</option>
+                                                          </select>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label>Status Penjualan</label>
+                                                          <select class="form-control" required name="status_penjualan">
+                                                              <option value="">-- Pilih Status Penjualan --</option>
+                                                              <option value="0">Belum Diproses</option>
+                                                              <option value="1">Sedang Diproses</option>
+                                                              <option value="2">Selesai Diproses</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="modal-footer justify-content-between">
+                                                      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                                      <button type="submit" class="btn btn-primary">Simpan</button>
+                                                  </div>
+                                              </form>
+                                          </div>
+                                          <!-- /.modal-content -->
+                                      </div>
+                                      <!-- /.modal-dialog -->
+                                  </div>
+                                <!-- /.modal -->
+
 
                         <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-kategori"><i class="nav-icon fas fa-image" ></i></button> -->
                         <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
@@ -321,10 +397,11 @@
 <script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('/assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
-<script src="{{ asset('/assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<script src="{{ asset('/assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('/assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
 <script type="text/javascript">
+  
   $(document).ready(function() {
       let start = moment().startOf('month')
       let end = moment().endOf('month')
