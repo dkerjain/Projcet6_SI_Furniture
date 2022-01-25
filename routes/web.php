@@ -46,8 +46,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
     //penjualan
   Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/','OrderController@index')->name('admin.order');
-    Route::get('/history','OrderController@history')->name('admin.history');
-    Route::get('/create','OrderController@create')->name('admin.order.create');
+    // Route::get('/history','OrderController@history')->name('admin.history');
+    Route::get('/create','OrderController@create')->name('admin.penjualan.create');
     Route::post('/store','OrderController@store')->name('admin.order.store');
     Route::get('/update/{id}', 'OrderController@edit')->name('admin.order.edit');
     Route::post('/update/{id}', 'OrderController@update')->name('admin.order.update');
@@ -94,16 +94,5 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
     Route::post('/update', 'KategoriController@update')->name('admin.kategori.update');
     Route::get('/{id}','KategoriController@show')->name('admin.kategori.show');
     Route::post('/delete/{id}','KategoriController@destroy')->name('admin.kategori.destroy');
-    });
-  
-    //Ukiran 
-    Route::group(['prefix' => 'produk'], function () {
-      Route::get('/','ProdukController@index')->name('admin.produk');
-      Route::get('/create','ProdukController@create')->name('admin.produk.create');
-      Route::post('/store','ProdukController@store')->name('admin.produk.store');
-      Route::get('/update/{id}', 'UkiranController@edit')->name('admin.ukiran.edit');
-      Route::post('/update', 'ProdukController@update')->name('admin.produk.update');
-      Route::get('/{id}','UkiranController@show')->name('admin.ukiran.show');
-      Route::post('/delete/{id}','UkiranController@destroy')->name('admin.ukiran.destroy');
     });
   });

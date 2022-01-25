@@ -56,7 +56,7 @@
             </li>
             
             <li class="nav-item">
-              <a href="/Transaksi/Penjualan" class="nav-link">
+              <a href="{{route('admin.order')}}" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
                   Penjualan
