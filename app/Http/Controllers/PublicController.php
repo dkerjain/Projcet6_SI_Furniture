@@ -35,37 +35,32 @@ class PublicController extends Controller
     public function index()
     {
       $kategori = Kategori::all();
-      $ukiran = Ukiran::all();
-      $produk = Produk::with('ukiran','kategori')->where('status_produk',1)->orderBy('created_at','DESC')->get();
-      return view('public.index',compact('produk','kategori','ukiran'));
+      $produk = Produk::with('kategori')->where('status_produk',1)->orderBy('created_at','DESC')->get();
+      return view('public.index',compact('produk','kategori'));
     }
     public function kontak(){
       return view('public.kontak');
     }
     public function produk(Request $request){
       $kategori = Kategori::all();
-      $ukiran = Ukiran::all();
-      $produk = Produk::with('ukiran','kategori','picture')->where('status_produk',1)
+      $produk = Produk::with('kategori','picture')->where('status_produk',1)
                 ->when($request->search, function ($query) use ($request) {
                         $query->where('nama_produk', 'like', "%{$request->search}%")
                         ->orWhere('keterangan', 'like', "%{$request->search}%");
                 })->get();
-      if($request->has('ukiran') && $request->ukiran!='all'){
-        $produk = Produk::with('ukiran','kategori','picture')->where('id_ukiran',$request->ukiran)->where('status_produk',1)->get();
-      }
       if($request->has('kategori') && $request->kategori!='all'){
-        $produk = Produk::with('ukiran','kategori','picture')->where('id_kategori',$request->kategori)->where('status_produk',1)->get();
+        $produk = Produk::with('kategori','picture')->where('id_kategori',$request->kategori)->where('status_produk',1)->get();
       }
       if($request->has('nama_produk')){
-        $produk = Produk::with('ukiran','kategori','picture')->orderBy('nama_produk',$request->nama_produk)->where('status_produk',1)->get();
+        $produk = Produk::with('kategori','picture')->orderBy('nama_produk',$request->nama_produk)->where('status_produk',1)->get();
       }
       if($request->has('created_at')){
-        $produk = Produk::with('ukiran','kategori','picture')->orderBy('created_at',$request->created_at)->where('status_produk',1)->get();
+        $produk = Produk::with('kategori','picture')->orderBy('created_at',$request->created_at)->where('status_produk',1)->get();
       }
-      return view('public.produk.index',compact('produk','kategori','ukiran'));
+      return view('public.produk.index',compact('produk','kategori'));
     }
     public function produkShow($id){
-      $produk = Produk::with('ukiran','kategori','picture')->where('id',$id)->first();
+      $produk = Produk::with('kategori','picture')->where('id',$id)->first();
       return view('public.produk.show',compact('produk'));
     }
     public function produkTambahKeranjang(Request $request){

@@ -128,10 +128,6 @@
                 <table class="table">
                   <tbody>
                     <tr>
-                      <td>Ukiran</td>
-                      <td>{{$produk->ukiran->nama_ukiran}}</td>
-                    </tr>
-                    <tr>
                       <td>Kategori</td>
                       <td>{{$produk->kategori->nama_kategori}}</td>
                     </tr>
