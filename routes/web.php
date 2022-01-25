@@ -73,8 +73,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
     Route::get('/','ProdukController@index')->name('admin.produk');
     Route::get('/create','ProdukController@create')->name('admin.produk.create');
     Route::post('/store','ProdukController@store')->name('admin.produk.store');
-    Route::get('/update/{id}', 'ProdukController@edit')->name('admin.produk.edit');
-    Route::post('/update/{id}', 'ProdukController@update')->name('admin.produk.update');
+    Route::get('/update', 'ProdukController@edit')->name('admin.produk.edit');
+    Route::post('/update', 'ProdukController@update')->name('admin.produk.update');
     Route::get('/{id}','ProdukController@show')->name('admin.produk.show');
     Route::post('/delete/{id}','ProdukController@destroy')->name('admin.produk.destroy');
     });
