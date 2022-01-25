@@ -67,9 +67,18 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/assets/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('/assets/dist/js/pages/dashboard3.js') }}"></script>
+<script src="{{ asset('/assets/dist/js/pages/dashboard2.js') }}"></script>
+
+<script src="{{ asset('/assets/plugins/moment/moment.min.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- bs-custom-file-input -->
+<script src="{{ asset('/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+</script>
 
 @yield('script')
 </body>
