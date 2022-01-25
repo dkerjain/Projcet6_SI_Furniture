@@ -251,7 +251,7 @@
     <div class="row">
       <div class="col-lg-10 offset-lg-1">
         <div class="newsletter_content">
-          <div class="newsletter_title text-center font-weight-normal">Bedug Terbaik di Indonesia</div>
+          <div class="newsletter_title text-center font-weight-normal">Best Furniture Unik</div>
         
         </div>
       </div>
