@@ -37,6 +37,16 @@ Route::post('/login', 'UserController@loginProcess')->name('login.submit');
       Route::post('/store','OrderController@store')->name('admin.order.store');
       Route::post('/update', 'OrderController@update')->name('admin.order.update');
       });
+  
+    //pembayaran
+    Route::group(['prefix' => 'pembayaran'], function () {
+      // Route::get('/','PembayaranController@index')->name('admin.pembayaran');
+      // //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
+      // Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
+      // Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
+      Route::post('/update', 'PembayaranController@update')->name('admin.pembayaran.update');
+      // Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
+    });
 
     //produk
     Route::group(['prefix' => 'produk'], function () {
