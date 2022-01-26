@@ -27,9 +27,10 @@ Route::post('/login/submit', 'UserController@loginProcess')->name('login.submit'
 
 
   //route admin
-  Route::group(['prefix' => 'admin'],function(){
+    Route::group(['prefix' => 'admin'],function(){
     Route::get('/','AdminController@dashboard')->name('admin.dashboard');
     Route::get('/logout','UserController@logout')->name('admin.logout');
+
     //penjualan
     Route::group(['prefix' => 'penjualan'], function () {
       Route::get('/','OrderController@index')->name('admin.order');
