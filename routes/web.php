@@ -59,12 +59,12 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
   
     //pembayaran
     Route::group(['prefix' => 'pembayaran'], function () {
-      Route::get('/','PembayaranController@index')->name('admin.pembayaran');
-      //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
-      Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
-      Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
-      Route::post('/update/{id}', 'PembayaranController@update')->name('admin.pembayaran.update');
-      Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
+      // Route::get('/','PembayaranController@index')->name('admin.pembayaran');
+      // //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
+      // Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
+      // Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
+      Route::post('/update', 'PembayaranController@update')->name('admin.pembayaran.update');
+      // Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
     });
 
     //produk

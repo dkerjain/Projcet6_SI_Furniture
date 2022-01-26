@@ -84,7 +84,7 @@
                         <td>{{$c->nama_customer}}</td>
                         <td>{{$c->nomor_telepon}}</td>
                         @endif
-                      @endforeach
+                      @endforeach-
                       @if($o->jasa_kurir==0)
                         <td>Diambil</td>
                       @else
@@ -224,67 +224,116 @@
                           </div>
                           <!-- /.End modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-penjualan{{$o->id}}"><i class="nav-icon fas fa-edit" ></i></button>
-                         
-                                <!-- /.modal Edit-->
-                                  <div class="modal fade" id="edit-penjualan{{$o->id}}">
-                                      <div class="modal-dialog modal-lg">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h4 class="modal-title">Edit Data Penjualan</h4>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                              </div>
-                                              <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
-                                                  {{ csrf_field() }}         
-                                                  <div class="modal-body">
-                                                    <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Pengiriman</label>
-                                                            <select class="form-control" required name="jasa_kurir">
-                                                                <option value="">-- Pilih Pengiriman --</option>
-                                                                <option value="0">Diambil</option>
-                                                                <option value="1">Jasa Kurir</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Biaya Pengiriman</label>
-                                                            <input type="text" class="form-control" required id="biaya_pengiriman" name="biaya_pengiriman" value="{{ $o->biaya_pengiriman }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Total Biaya Produk</label>
-                                                            <input type="text" class="form-control bg-success color-palette" required id="biaya_produk" name="biaya_produk" value="Rp. {{ number_format($o->biaya_total_produk) }}" readonly>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Status Pembayaran</label>
-                                                            <select class="form-control" required name="status_pembayaran">
-                                                                <option value="">-- Pilih Status Pembayaran --</option>
-                                                                <option value="0">Belum Lunas</option>
-                                                                <option value="1">Lunas</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Status Penjualan</label>
-                                                            <select class="form-control" required name="status_penjualan">
-                                                                <option value="">-- Pilih Status Penjualan --</option>
-                                                                <option value="0">Belum Diproses</option>
-                                                                <option value="1">Sedang Diproses</option>
-                                                                <option value="2">Selesai Diproses</option>
-                                                            </select>
-                                                        </div>
+                          <!-- /.modal Edit-->
+                            <div class="modal fade" id="edit-penjualan{{$o->id}}">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Data Penjualan</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
+                                            {{ csrf_field() }}         
+                                            <div class="modal-body">
+                                              <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
+                                                  <div class="form-group">
+                                                      <label for="exampleInputPassword1">Pengiriman</label>
+                                                      <select class="form-control" required name="jasa_kurir">
+                                                          <option value="">-- Pilih Pengiriman --</option>
+                                                          <option value="0">Diambil</option>
+                                                          <option value="1">Jasa Kurir</option>
+                                                      </select>
                                                   </div>
-                                                  <div class="modal-footer justify-content-between">
-                                                      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                                                      <button type="submit" class="btn btn-primary">Simpan</button>
+                                                  <div class="form-group">
+                                                      <label for="exampleInputPassword1">Biaya Pengiriman</label>
+                                                      <input type="text" class="form-control" required id="biaya_pengiriman" name="biaya_pengiriman" value="{{ $o->biaya_pengiriman }}">
                                                   </div>
-                                              </form>
-                                          </div>
-                                          <!-- /.modal-content -->
-                                      </div>
-                                      <!-- /.modal-dialog -->
-                                  </div>
-                                <!-- /.modal -->
+                                                  <div class="form-group">
+                                                      <label for="exampleInputPassword1">Total Biaya Produk</label>
+                                                      <input type="text" class="form-control bg-success color-palette" required id="biaya_produk" name="biaya_produk" value="Rp. {{ number_format($o->biaya_total_produk) }}" readonly>
+                                                  </div>
+                                                  <div class="form-group">
+                                                      <label>Status Pembayaran</label>
+                                                      <select class="form-control" required name="status_pembayaran">
+                                                          <option value="">-- Pilih Status Pembayaran --</option>
+                                                          <option value="0">Belum Lunas</option>
+                                                          <option value="1">Lunas</option>
+                                                      </select>
+                                                  </div>
+                                                  <div class="form-group">
+                                                      <label>Status Penjualan</label>
+                                                      <select class="form-control" required name="status_penjualan">
+                                                          <option value="">-- Pilih Status Penjualan --</option>
+                                                          <option value="0">Belum Diproses</option>
+                                                          <option value="1">Sedang Diproses</option>
+                                                          <option value="2">Selesai Diproses</option>
+                                                      </select>
+                                                  </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                          <!-- /.modal -->
 
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-pembayaran"><i class="nav-icon fas fa-money-check" ></i></button>
+                           <!-- /.modal Edit-->
+                              <div class="modal fade" id="edit-pembayaran">
+                                  <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h4 class="modal-title">Konfirmasi Pembayaran</h4>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                              </button>
+                                          </div>
+                                          <form action="{{ route('admin.pembayaran.update') }}" method="POST" enctype="multipart/form-data">
+                                              {{ csrf_field() }}         
+                                              <div class="modal-body">
+                                                <input type="hidden" class="form-control" required id="id" name="id" value="#">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Pembayaran</label>
+                                                        <select class="form-control" required name="jasa_kurir">
+                                                            <option value="">-- Pilih Bank Pembayaran --</option>
+                                                            <option value="0">BRI</option>
+                                                            <option value="1">BNI</option>
+                                                            <option value="2">Mandiri</option>
+                                                            <option value="3">BCA</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Total Pembayaran</label>
+                                                        <input type="text" class="form-control" required id="biaya_pengiriman" name="total_pembayaran">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputFile">Upload Bukti Transfer</label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
+                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                              <div class="modal-footer justify-content-between">
+                                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                                  <button type="submit" class="btn btn-primary">Simpan</button>
+                                              </div>
+                                          </form>
+                                      </div>
+                                      <!-- /.modal-content -->
+                                  </div>
+                                  <!-- /.modal-dialog -->
+                              </div>
+                            <!-- /.modal -->
 
                         <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#foto-kategori"><i class="nav-icon fas fa-image" ></i></button> -->
                         <!-- <a class="hapus ml-3" href="#" data-toggle="modal"><i class="nav-icon fas fa-trash" ></i></a> -->
