@@ -23,7 +23,7 @@ Route::get('/kontak-kami', 'PublicController@kontak')->name('public.kontak');
 
 
 Route::get('/login', 'UserController@login')->name('login');
-Route::post('/login', 'UserController@loginProcess')->name('login.submit');
+Route::post('/login/submit', 'UserController@loginProcess')->name('login.submit');
 
 
   //route admin

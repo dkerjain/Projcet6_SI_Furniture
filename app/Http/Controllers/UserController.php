@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Crypt;
+
 use Auth;
 use Redirect;
 use Carbon\Carbon;
@@ -26,40 +28,28 @@ class UserController extends Controller
     {
       return view('admin.login');
     }
+
     public function loginProcess(Request $request)
     {
-        $message = [
-            'email.required'    => 'email harus diisi',
-            'email.email'   => 'format email tidak benar (example@example.com)',
-            'password.required' => 'password harus diisi',
-        ];
-        $rules = [
-            'email' => 'required',
-            'password' => 'required',
-        ];
-        $validator = $this->validator($request->all(), $rules, $message);
-        if ($validator->fails()){
-            return Redirect::back()->withInput()->withErrors($validator);
-        }
-        $user = User::where('email', $request->email)->first();
-        if (!empty($user)){
-            if (Hash::check($request->password, $user->password)){
-              Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->has('remember'));
-              return redirect()->route('admin.dashboard');
-            } else {
-                $errors = [
-                    'password' => 'Email atau password yang anda masukan salah'
-                ];
-                return Redirect::back()->withInput()->withErrors($errors);
+        $email = $request->email;
+        $password = $request->password;
+        $data = User::where('email', $request->email)->first();
+        if($data){
+            $pass = Crypt::decryptString($data->password);
+            if($pass == $password){
+                Session::put('login',TRUE);
+                return redirect()->route('admin.dashboard');
+            }else{
+                return Redirect::back()->withInput()->with('alert','Password salah!');
             }
-        }else {
-            $errors = 'Email atau password yang anda masukan salah';
-            return Redirect::back()->withInput()->with(['error'=>$errors]);
+        }else{
+            return Redirect::back()->withInput()->with('alert','Email salah!');
         }
     }
+
     public function logout(){
-      Auth::guard('admin')->logout();
-      return redirect()->route('login');
+        Session::flush();
+        return redirect()->route('login');
     }
 
     public function index(){
@@ -67,10 +57,23 @@ class UserController extends Controller
         return view('admin.user.index',compact('user'));
     }
 
-    public function update(){
+    public function store(Request $request){        
+        $pass = Crypt::encryptString($request->password);
+        User::create([
+            'name'=>$request->nama,
+            'email'=>$request->email,
+            'password'=>$pass
+        ]);
+        return redirect()->route('admin.user');
+    }
 
-        $user = User::orderBy('id')->get();
-        return view('admin.user.index',compact('user'));
-        
+    public function update(Request $request){        
+        $pass = Crypt::encryptString($request->password);
+        User::where('id',$request->id)->update([
+            'name'=>$request->nama,
+            'email'=>$request->email,
+            'password'=>$pass
+        ]);
+        return redirect()->route('admin.user');
     }
 }

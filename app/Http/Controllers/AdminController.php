@@ -21,30 +21,26 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Intervention\Image\Facades\Image as Image;
+use DB;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-      //mengambil produk dengan stok tipis
-      $produk =  Produk::where('stok','<',3)->get();
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d H:i:s');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d H:i:s');
 
-      //menghitung nilai transaksi dan
-      $year = date('Y');
-      $month = date('m');
-      $pembayaran = Pembayaran::where('status_pembayaran',1);
-      $order = Order::with('customer','orderList','pembayaran')->where('status',2)->whereYear('created_at', '=', $year)
-              ->whereMonth('created_at', '=', $month)
-              ->with('OrderList')->get();
-      $nilai_transaksi = 0;
-      $item_terjual = 0;
-      for ($i=0; $i <count($order) ; $i++) {
-        $nilai_transaksi = $nilai_transaksi + $order[$i]->biaya_total_produk;
-        $item_terjual = $item_terjual + $order[$i]->jumlah_item;
+        $total_biaya = DB::table('order')->whereBetween('created_at', [$start, $end])->SUM('biaya_total_produk');
+        $total_kirim = DB::table('order')->whereBetween('created_at', [$start, $end])->SUM('biaya_pengiriman');
+        $total_pemasukan = $total_biaya+$total_kirim;
+        $total_barang= DB::table('order')->whereBetween('created_at', [$start, $end])->SUM('jumlah_item');
+        $total_pesanan= DB::table('order')->whereBetween('created_at', [$start, $end])->where('status',1)->COUNT('id');
+        
+      if(!Session::get('login')){
+        return redirect()->route('login');
+      }else{
+        return view('admin.dashboard',compact('total_pemasukan','total_pesanan','total_barang'));
       }
-      //ambil nota yang belum ditindak
-      $order_belum_ditindak = Order::where('status',0)->get();
-      return view('admin.dashboard',compact('produk','nilai_transaksi','item_terjual','order_belum_ditindak'));
     }
 
 }

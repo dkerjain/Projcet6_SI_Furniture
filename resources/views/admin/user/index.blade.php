@@ -49,7 +49,6 @@
                       <th>Id User</th>
                       <th>Nama User</th>
                       <th>Email</th>
-                      <th>Password</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -59,7 +58,6 @@
                       <td>{{$u->id}}</td>
                       <td>{{$u->name}}</td>
                       <td>{{$u->email}}</td>
-                      <td class="hidetext">{{$u->password}}</td>
                       <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-user{{$u->id}}"><i class="nav-icon fas fa-edit" ></i></button>
                         <!-- /.modal Edit-->
@@ -87,7 +85,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Password</label>
-                                                <input type="password" class="form-control" required id="exampleInputPassword1" name="password" value="{{$u->password}}">
+                                                <input type="password" class="form-control" required id="exampleInputPassword1" name="password" value="">
                                             </div>
                                           </div>
                                           <div class="modal-footer justify-content-between">

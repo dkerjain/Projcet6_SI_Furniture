@@ -33,7 +33,7 @@
           <div class="small-box bg-info">
             <div class="inner">
               <p>Total Pemasukan Bulan Ini</p>
-              <h3>Rp. 0 </h3>
+              <h3>Rp. {{ number_format($total_pemasukan)}}</h3>
             </div>
             <div class="icon">
             </div>
@@ -46,7 +46,7 @@
           <div class="small-box bg-success">
             <div class="inner">
               <p>Barang Yang Terjual Bulan Ini</p>
-              <h3>0</h3>
+              <h3>Rp. {{ number_format($total_barang)}}</h3>
             </div>
             <div class="icon">
             </div>
@@ -58,7 +58,7 @@
           <div class="small-box bg-warning">
             <div class="inner">
               <p>Pemesanan Sedang Diproses
-              <h3> 0 </h3>
+              <h3>Rp. {{ number_format($total_pesanan)}}</h3>
             </div>
             <div class="icon">
             </div>
@@ -67,41 +67,7 @@
         </div>
       </div>
 
-      <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Penjualan Bulan Ini</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr style="background: white; color:black;">
-                      <th>Rendering engine</th>
-                      <th>Browser</th>
-                      <th>Platform(s)</th>
-                      <th>Engine version</th>
-                      <th>CSS grade</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Other browsers</td>
-                      <td>All others</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>U</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
+      
       
     </div>
   </section>

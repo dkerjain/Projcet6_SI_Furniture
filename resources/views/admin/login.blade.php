@@ -36,9 +36,10 @@
 				</div>
 			@endif
             <form action="{{ route('login.submit') }}" class="validate-form" method="post">
+            {{ csrf_field() }}   
               <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" placeholder="your-email@gmail.com" id="email" name="name">
+                <label for="username">Email</label>
+                <input type="text" class="form-control" placeholder="your-email@gmail.com" id="email" name="email">
               </div>
               <div class="form-group last mb-3">
                 <label for="password">Password</label>
