@@ -34,16 +34,7 @@ class KategoriController extends Controller
       return view('admin.kategori.index',compact('kategori'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -69,28 +60,6 @@ class KategoriController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -101,43 +70,19 @@ class KategoriController extends Controller
     {
         $kategori = Kategori::find($request->id);
         $kategori->nama_kategori = $request->nama_kategori;
-        $file = $request->file('image');
-        $nama_foto = $request->id.'_'.$request->file('image')->getClientOriginalName();
-        $path_foto = '/image/kategori/'.$nama_foto;
+        if($request->hasfile('image')){
+            $file = $request->file('image');
+            $nama_foto = $request->id.'_'.$request->file('image')->getClientOriginalName();
+            $path_foto = '/image/kategori/'.$nama_foto;
 
-        // Simpan file ke public
-        $file->move('image/kategori', $nama_foto);
-        //save ke database
-        $kategori->url_photo = $path_foto;
-        $kategori->save();
+            // Simpan file ke public
+            $file->move('image/kategori', $nama_foto);
+            //save ke database
+            $kategori->url_photo = $path_foto;
+            $kategori->save();
+        }
+        
         return redirect()->route('admin.kategori')->with(['success' => 'Kategori berhasil diperbarui']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $kategori = Kategori::find($id);
-        if(!$kategori || $id==1){
-          return redirect()->route('admin.kategori')->with(['error' => 'Kategori tidak ditemukan']);
-        }
-        //pindah kategori produk ke 'Umum'
-        $produk = Produk::where('id_kategori',$id)->get();
-        for ($i=0; $i <count($produk) ; $i++) {
-          $update_produk = Produk::find($produk[$i]->id);
-          $update_produk->id_kategori = 1;
-          $update_produk->save();
-        }
-        //hapus folder foto
-        if(Storage::disk('public')->exists('kategori/'.$kategori->id)){
-            Storage::disk('public')->deleteDirectory('kategori/'.$kategori->id);
-        }
-        //hapus kategori
-        $kategori->delete();
-        return redirect()->route('admin.kategori')->with(['success' => 'Kategori berhasil dihapus']);
-    }
 }

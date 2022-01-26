@@ -108,52 +108,7 @@ class PublicController extends Controller
       }
       return redirect()->route('public.keranjang');
     }
-    public function tracking()
-    {
-      $order = Order::with('customer','orderList')->orderBy('created_at','desc')->get();
-      return view('public.tracking', compact('order'));
-    }
-    public function pembayaran($id)
-    {
-      $order = Order::where('id',$id)->with('customer','orderList.produk','pembayaran')->first();
-  return view('public.pembayaran',compact('order'));
-      //return view('public.thankspembayaran',compact('order'));
-    }
-    public function pembayaranStore(Request $request, $id)
-    {
-            //validator
-            $message = [
-            'bank_pembayaran.required' => 'Bank Pengiriman belum diisi',
-            'image.required' => 'Bukti Transfer belum diisi',
-            ];
-            $rules = [
-            'bank_pembayaran' => 'required',
-            'image' => 'required',
-            ];
-            $validator = $this->validator($request->all(), $rules, $message);
-            if ($validator->fails()){
-            return Redirect::back()->withInput()->with(['error'=>$validator->errors()->first()]);
-            }
-            if($request->hasfile('image')){
-            //membuat path storage foto
-            $path = 'pembayaran/'.$id;
-            //proses cek direktori
-            if(!Storage::disk('public')->exists($path)){
-              Storage::disk('public')->makeDirectory($path);
-            }
-            //proses upload
-            foreach($request->image as $file){
-            $extension = $file->getClientOriginalExtension();
-            $filename = $file->getClientOriginalName();
-            $file->storeAs($path, $filename, 'public');
-          }
-      }
-      $pembayaran = Pembayaran::where('id_order',$id)->first();
-      $pembayaran->bank_pembayaran=$request->bank_pembayaran;
-      $pembayaran->bukti_pembayaran='storage/'.$path.'/'.$filename;
-      $pembayaran->save();
-      return redirect()->route('public.pembayaran',['id'=>$id]);
-    }
+    
     public function keranjang(){
       $cart = session()->get('cart');
       $produk = [];
@@ -166,23 +121,7 @@ class PublicController extends Controller
         }
       }
       return view('public.keranjang',compact('produk','cart'));
-      }
-    public function downloadssss($id)
-    {
-        $order = Order::where('id',$id)->with('customer','orderList.produk')->first();
-
-        $pdf = PDF::loadview('public.printnota-view',['order'=>$order]);
-        return $pdf->download('nota-pembayaran'.$order->id);
-    }
-
-    public function downloadnota($id)
-    {
-        $order = Order::where('id',$id)->with('customer','orderList.produk')->first();
-
-        $pdf = PDF::loadview('admin.penjualan.print-view',['order'=>$order]);
-        return $pdf->download('nota-penjualan-'.$order->id);
-    }
-  
+      }  
     
     public function checkout(Request $request){
 

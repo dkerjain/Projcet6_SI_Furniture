@@ -81,8 +81,8 @@
                                                 <label for="exampleInputFile">Input Foto</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
-                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                        <input type="file" class="custom-file-input" value="{{ $k->url_photo}}" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
+                                                        <label class="custom-file-label" for="exampleInputFile">{{ $k->url_photo}}</label>
                                                     </div>
                                                 </div>
                                             </div>

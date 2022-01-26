@@ -40,31 +40,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::orderBy('created_at','desc')->get();
+        $order = Order::orderBy('id','desc')->get();
         $order_list = OrderList::all();
         $customer = Customer::all();
         $pembayaran = Pembayaran::all();
         $produk = Produk::all();
         return view('admin.penjualan.index',compact('order','order_list','customer','pembayaran','produk'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-        public function history()
-    {   
-
-        $pembayaran = Pembayaran::where('status_pembayaran',1);
-        $order = Order::with('customer','orderList','pembayaran')->where('status',2)->orderBy('created_at','desc')->get();
-        return view('admin.penjualan.history',compact('order'));
-    }
-
-    public function create()
-    {
-        $produk = Produk::where('nama_produk')->with('picture')->first();
-        return view('admin.penjualan.create',compact('produk'));
     }
 
     /**
@@ -186,54 +167,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    public function print($id)
-    {
-        $order = Order::where('id',$id)->with('customer','orderList.produk')->first();
-        return view('admin.penjualan.print',compact('order'));
-    }
-    public function printView($id)
-    {
-        $order = Order::where('id',$id)->with('customer','orderList.produk')->first();
-        return view('admin.penjualan.print-view',compact('order'));
-    }
-    public function download($id)
-    {
-        $order = Order::where('id',$id)->with('customer','orderList.produk')->first();
-
-        $pdf = PDF::loadview('admin.penjualan.print-view',['order'=>$order]);
-	      return $pdf->download('nota-penjualan-'.$order->id);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-
-        $order = Order::where('id',$id)->with('customer','orderList','pembayaran')->first();
-
-        $kelurahan = Kelurahan::where('ID_KELURAHAN', $order->customer->ID_KELURAHAN)->first();
-        $kecamatan = Kecamatan::where('ID_KECAMATAN', $kelurahan->ID_KECAMATAN)->first();
-        $kota = Kota::where('ID_KOTA', $kecamatan->ID_KOTA)->first();
-        $provinsi = Provinsi::where('ID_PROVINSI', $kota->ID_PROVINSI)->first();
-
-        return view('admin.penjualan.edit',compact('order','kelurahan','kecamatan','kota','provinsi'));
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -253,41 +186,4 @@ class OrderController extends Controller
        
        return redirect()->route('admin.order');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $order = Order::where('id',$id)->with('orderList')->first();
-        if(!$order){
-          return redirect()->route('admin.order')->with(['error' => 'Nota tidak ditemukan, silahkan cek ulang kembali']);
-        }
-        //hapus orderlst dan menambah stok ulang ke produk
-        for ($i=0; $i <count($order->orderList)  ; $i++) {
-          $produk = Produk::find($order->orderList[$i]->id_produk);
-          if($produk){
-            $produk->stok = $produk->stok +  $order->orderList[$i]->jumlah;
-            $produk->save();
-          }
-          $order_list = OrderList::find($order->orderList[$i]->id);
-          $order_list->delete();
-        }
-        //hapus order
-        $order->delete();
-        // return
-        return redirect()->route('admin.order')->with(['success' => 'Nota berhasil dihapus']);
-    }
-
-    //public function laporan($id)
-   // {
-
-    //    $pembayaran = Pembayaran::where('status_pembayaran',1);
-     //   $order = Order::with('customer','orderList','pembayaran')->where('status',2)->orderBy('created_at','desc')->get();
-     //   $pdf = PDF::loadview('admin.penjualan.laporan',['order'=>$order]);
-      //  return $pdf->download('laporan-bulan-{{date('F Y')}}');
-    //}
 }
