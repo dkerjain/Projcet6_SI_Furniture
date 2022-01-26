@@ -25,7 +25,6 @@ Route::get('/kontak-kami', 'PublicController@kontak')->name('public.kontak');
 Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginProcess')->name('login.submit');
 
-// Auth::routes();
 
   //route admin
   Route::group(['prefix' => 'admin'],function(){
@@ -40,12 +39,7 @@ Route::post('/login', 'UserController@loginProcess')->name('login.submit');
   
     //pembayaran
     Route::group(['prefix' => 'pembayaran'], function () {
-      // Route::get('/','PembayaranController@index')->name('admin.pembayaran');
-      // //Route::get('/create','PembayaranController@create')->name('admin.pembayaran.create');
-      // Route::post('/store','PembayaranController@store')->name('admin.pembayaran.store');
-      // Route::get('/update/{id}', 'PembayaranController@edit')->name('admin.pembayaran.edit');
-      Route::post('/update', 'PembayaranController@update')->name('admin.pembayaran.update');
-      // Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
+      Route::post('/update', 'OrderController@bayar')->name('admin.pembayaran.update');
     });
 
     //produk

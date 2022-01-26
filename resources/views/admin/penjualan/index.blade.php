@@ -192,6 +192,7 @@
                                         <thead>
                                         <tr>
                                           <th>Produk</th>
+                                          <th>Harga</th>
                                           <th>Jumlah</th>
                                           <th>Sub Total</th>
                                         </tr>
@@ -206,6 +207,7 @@
                                                     <td>{{$pr->nama_produk}}</td>
                                                   @endif
                                                 @endforeach
+                                                <td>{{$ol->harga}}</td>
                                                 <td>{{$ol->jumlah}}</td>
                                                 <td>Rp. {{number_format($ol->harga_subtotal)}}</td>
                                             </tr>
@@ -224,54 +226,60 @@
                           </div>
                           <!-- /.End modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-penjualan{{$o->id}}"><i class="nav-icon fas fa-edit" ></i></button>
-                          <!-- /.modal Edit-->
-                            <div class="modal fade" id="edit-penjualan{{$o->id}}">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Data Penjualan</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
-                                            {{ csrf_field() }}         
-                                            <div class="modal-body">
-                                              <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
-                                                  <div class="form-group">
-                                                      <label for="exampleInputPassword1">Pengiriman</label>
-                                                      <select class="form-control" required name="jasa_kurir">
-                                                          <option value="">-- Pilih Pengiriman --</option>
-                                                          <option value="0">Diambil</option>
-                                                          <option value="1">Jasa Kurir</option>
-                                                      </select>
+                         
+                                <!-- /.modal Edit-->
+                                  <div class="modal fade" id="edit-penjualan{{$o->id}}">
+                                      <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h4 class="modal-title">Edit Data Penjualan</h4>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </div>
+                                              <form action="{{ route('admin.order.update') }}" method="POST" enctype="multipart/form-data">
+                                                  {{ csrf_field() }}         
+                                                <div class="modal-body">
+                                                    <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Pengiriman</label>
+                                                            <select class="form-control" required name="jasa_kurir">
+                                                              @if($o->jasa_kurir==0)
+                                                                <option value="0">Diambil</option>
+                                                                <option value="1">Jasa Kurir</option>
+                                                              @elseif($o->jasa_kurir==1)
+                                                                <option value="1">Jasa Kurir</option>
+                                                                <option value="0">Diambil</option>
+                                                              @endif
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Biaya Pengiriman</label>
+                                                            <input type="text" class="form-control" required id="biaya_pengiriman" name="biaya_pengiriman" value="{{ $o->biaya_pengiriman }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Total Biaya Produk</label>
+                                                            <input type="text" class="form-control bg-success color-palette" required id="biaya_produk" name="biaya_produk" value="Rp. {{ number_format($o->biaya_total_produk) }}" readonly>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Status Penjualan</label>
+                                                            <select class="form-control" required name="status_penjualan">
+                                                                @if($o->status==0)
+                                                                <option value="0">Belum Diproses</option>
+                                                                <option value="1">Sedang Diproses</option>
+                                                                <option value="2">Selesai Diproses</option>
+                                                                @elseif($o->status==1)                                                                
+                                                                <option value="1">Sedang Diproses</option>
+                                                                <option value="0">Belum Diproses</option>
+                                                                <option value="2">Selesai Diproses</option>
+                                                                @elseif($o->status==2)
+                                                                <option value="2">Selesai Diproses</option>
+                                                                <option value="0">Belum Diproses</option>
+                                                                <option value="1">Sedang Diproses</option>
+                                                                @endif
+                                                            </select>
+                                                        </div>
                                                   </div>
-                                                  <div class="form-group">
-                                                      <label for="exampleInputPassword1">Biaya Pengiriman</label>
-                                                      <input type="text" class="form-control" required id="biaya_pengiriman" name="biaya_pengiriman" value="{{ $o->biaya_pengiriman }}">
-                                                  </div>
-                                                  <div class="form-group">
-                                                      <label for="exampleInputPassword1">Total Biaya Produk</label>
-                                                      <input type="text" class="form-control bg-success color-palette" required id="biaya_produk" name="biaya_produk" value="Rp. {{ number_format($o->biaya_total_produk) }}" readonly>
-                                                  </div>
-                                                  <div class="form-group">
-                                                      <label>Status Pembayaran</label>
-                                                      <select class="form-control" required name="status_pembayaran">
-                                                          <option value="">-- Pilih Status Pembayaran --</option>
-                                                          <option value="0">Belum Lunas</option>
-                                                          <option value="1">Lunas</option>
-                                                      </select>
-                                                  </div>
-                                                  <div class="form-group">
-                                                      <label>Status Penjualan</label>
-                                                      <select class="form-control" required name="status_penjualan">
-                                                          <option value="">-- Pilih Status Penjualan --</option>
-                                                          <option value="0">Belum Diproses</option>
-                                                          <option value="1">Sedang Diproses</option>
-                                                          <option value="2">Selesai Diproses</option>
-                                                      </select>
-                                                  </div>
-                                            </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -283,10 +291,15 @@
                                 <!-- /.modal-dialog -->
                             </div>
                           <!-- /.modal -->
-
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-pembayaran"><i class="nav-icon fas fa-money-check" ></i></button>
-                           <!-- /.modal Edit-->
-                              <div class="modal fade" id="edit-pembayaran">
+                        @foreach($pembayaran as $pb)
+                          @if($pb->id_order == $o->id)
+                            @if($pb->status_pembayaran == 0)
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-pembayaran{{$o->id}}"><i class="nav-icon fas fa-money-check" ></i></button>
+                            @endif
+                          @endif
+                        @endforeach
+                          <!-- /.modal Edit-->
+                              <div class="modal fade" id="edit-pembayaran{{$o->id}}">
                                   <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
                                           <div class="modal-header">
@@ -298,20 +311,21 @@
                                           <form action="{{ route('admin.pembayaran.update') }}" method="POST" enctype="multipart/form-data">
                                               {{ csrf_field() }}         
                                               <div class="modal-body">
-                                                <input type="hidden" class="form-control" required id="id" name="id" value="#">
+                                                <input type="hidden" class="form-control" required id="id" name="id" value="{{ $o->id }}">
+                                                    
                                                     <div class="form-group">
                                                         <label for="exampleInputPassword1">Pembayaran</label>
-                                                        <select class="form-control" required name="jasa_kurir">
+                                                        <select class="form-control" required name="bank">
                                                             <option value="">-- Pilih Bank Pembayaran --</option>
-                                                            <option value="0">BRI</option>
-                                                            <option value="1">BNI</option>
-                                                            <option value="2">Mandiri</option>
-                                                            <option value="3">BCA</option>
+                                                            <option value="BRI">BRI</option>
+                                                            <option value="BNI">BNI</option>
+                                                            <option value="Mandiri">Mandiri</option>
+                                                            <option value="BCA">BCA</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="exampleInputPassword1">Total Pembayaran</label>
-                                                        <input type="text" class="form-control" required id="biaya_pengiriman" name="total_pembayaran">
+                                                        <input type="text" class="form-control" required id="total_bayar" name="total_bayar" value="Rp. {{number_format($o->biaya_pengiriman+$o->biaya_total_produk)}}" readonly>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="exampleInputFile">Upload Bukti Transfer</label>

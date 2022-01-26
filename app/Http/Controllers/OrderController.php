@@ -180,8 +180,21 @@ class OrderController extends Controller
         'status' => $request->status_penjualan,
         'jasa_kurir' => $request->jasa_kurir
        ]);
+       
+       return redirect()->route('admin.order');
+    }
+    public function bayar(Request $request)
+    {
+        $file = $request->file('image');
+        $nama_foto = $request->id.'_'.$request->file('image')->getClientOriginalName();
+        $path_foto = '/image/bukti_bayar/'.$nama_foto;
+
+        // Simpan file ke public
+        $file->move('image/bukti_bayar', $nama_foto);
        Pembayaran::where('id_order',$request->id)->update([
-        'status_pembayaran' => $request->status_pembayaran
+        'status_pembayaran' => 1,
+        'bank_pembayaran' => $request->bank,
+        'bukti_pembayaran' => $path_foto
        ]);
        
        return redirect()->route('admin.order');
