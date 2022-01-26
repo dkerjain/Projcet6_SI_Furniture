@@ -133,6 +133,24 @@ class ProdukController extends Controller
      */
     public function update(Request $request)
     {
+
+      $path = null;
+        if($request->foto)
+        {
+            $file = $request->file('image');
+            $nama_foto = $produk->id.'_'.$request->file('image')->getClientOriginalName();
+            $path = '/image/produk/'.$nama_foto;   
+            // Simpan file ke public
+            $file->move('image/produk', $nama_foto);
+            Picture::where('id_produk',$request->id)->update([
+              'url_photo' => $path,
+              'file_name' => $nama_foto
+            ]);     
+        }   
+        else{
+            $path = $request->image;
+        }
+
       $produk = Produk::find($request->id);
       $produk->id_kategori = $request->id_kategori;
       $produk->nama_produk= $request->nama;
@@ -147,16 +165,8 @@ class ProdukController extends Controller
       $produk->keterangan= $request->keterangan;
       $produk->save();
 
-        $file = $request->file('image');
-        $nama_foto = $produk->id.'_'.$request->file('image')->getClientOriginalName();
-        $path_foto = '/image/produk/'.$nama_foto;
-
-        // Simpan file ke public
-        $file->move('image/produk', $nama_foto);
-        Picture::where('id_produk',$request->id)->update([
-          'url_photo' => $path_foto,
-          'file_name' => $nama_foto
-        ]);
+        
+        
       return redirect()->route('admin.produk')->with(['success' => 'Produk berhasil diperbarui']);
     }
 

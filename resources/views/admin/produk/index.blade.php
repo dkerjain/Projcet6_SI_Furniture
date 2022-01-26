@@ -85,8 +85,8 @@
                                               <div class="form-group">
                                                   <label>Kategori <span class="required">*</span></label>
                                                   <select class="form-control" required name="id_kategori">
-                                                      @foreach($kategori as $k)
-                                                          <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
+                                                      @foreach($kategori as $k)                                                          
+                                                          <option value="{{ $k->id }}" @if($p->id_kategori === $k->id) selected @endif> {{ $k->nama_kategori }}</option>
                                                       @endforeach
                                                   </select>
                                               </div>
@@ -132,8 +132,10 @@
                                                   <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>
                                                   <div class="input-group">
                                                       <div class="custom-file">
-                                                          <input type="file" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
-                                                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                          @foreach($picture as $pic)
+                                                          <input type="file" value="{{$pic->url_photo}}" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
+                                                          <label class="custom-file-label" for="exampleInputFile">{{ $pic->file_name }}</label>
+                                                          @endforeach
                                                       </div>
                                                   </div>
                                               </div>

@@ -73,7 +73,7 @@ Produk - DOMUS
               <i class="fa fa-angle-down"></i>
               <ul>
                 <li class="item_sorting_btn"><a href="{{route('public.produk',['kategori'=>'all'])}}"><span>Seluruh Kategori</span></a></li>
-                @for($i=0;$i<count($kategori);$i++)
+                @for($i=0;$i<count($kategori);$i++)>
                 <li class="item_sorting_btn"><a href="{{route('public.produk',['kategori'=>$kategori[$i]->id])}}"><span>{{$kategori[$i]->nama_kategori}}</span></a></li>
                 @endfor
               </ul>

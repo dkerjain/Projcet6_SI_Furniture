@@ -193,8 +193,6 @@
 @section('script')
 <script>
 $("#produk-nav").addClass("active");
-//barcode
-JsBarcode("#barcode", "{{$produk->nomor_barcode}}");
 // counter
 $(document).ready(function() {
     $('.minus').click(function () {
