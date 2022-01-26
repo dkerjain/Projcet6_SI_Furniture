@@ -61,4 +61,16 @@ class UserController extends Controller
       Auth::guard('admin')->logout();
       return redirect()->route('login');
     }
+
+    public function index(){
+        $user = User::get();
+        return view('admin.user.index',compact('user'));
+    }
+
+    public function update(){
+
+        $user = User::orderBy('id')->get();
+        return view('admin.user.index',compact('user'));
+        
+    }
 }

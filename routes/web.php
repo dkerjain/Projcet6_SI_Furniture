@@ -42,6 +42,13 @@ Route::post('/login', 'UserController@loginProcess')->name('login.submit');
       Route::post('/update', 'OrderController@bayar')->name('admin.pembayaran.update');
     });
 
+    //user
+    Route::group(['prefix' => 'user'], function () {
+      Route::get('/', 'UserController@index')->name('admin.user');
+      Route::post('/update', 'UserController@update')->name('admin.user.update');
+      Route::post('/store', 'UserController@store')->name('admin.user.store');
+    });
+
     //produk
     Route::group(['prefix' => 'produk'], function () {
       Route::get('/','ProdukController@index')->name('admin.produk');
