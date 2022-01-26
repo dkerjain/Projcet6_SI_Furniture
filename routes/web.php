@@ -67,6 +67,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
       // Route::get('/{id}','PembayaranController@show')->name('admin.pembayaran.show');
     });
 
+    //user
+    Route::group(['prefix' => 'user'], function () {
+      Route::get('/', 'UserController@index')->name('admin.user');
+      Route::post('/update', 'UserController@update')->name('admin.user.update');
+      Route::post('/store', 'UserController@store')->name('admin.user.store');
+    });
+
     //produk
     Route::group(['prefix' => 'produk'], function () {
       Route::get('/','ProdukController@index')->name('admin.produk');

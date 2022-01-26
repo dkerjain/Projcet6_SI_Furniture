@@ -72,13 +72,13 @@
               </a>
             </li> -->
           
-            <!-- <li class="nav-header">Akun</li>
+            <li class="nav-header">Akun</li>
             <li class="nav-item">
-              <a href="/profile" class="nav-link btn-info">
+              <a href="{{route('admin.user')}}" class="nav-link btn-info">
                 <i class="nav-icon fas fa-user"></i>
-                <p>Edit Profile</p>
+                <p>User</p>
               </a>
-            </li> -->
+            </li>
             <li class="nav-item">
               <a href="{{route('admin.logout')}}"  class="nav-link btn-secondary">
                 <i class="nav-icon fas fa-power-off"></i>
