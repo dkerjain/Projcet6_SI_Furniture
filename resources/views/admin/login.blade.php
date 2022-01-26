@@ -1,96 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<title>Login - Bedug Langgeng</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/bootstrap/css/bootstrap.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/fonts/iconic/css/material-design-iconic-font.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/animate/animate.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/css-hamburgers/hamburgers.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/animsition/css/animsition.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/select2/select2.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/vendor/daterangepicker/daterangepicker.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/css/util.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('login_assets/css/main.css')}}">
-<!--===============================================================================================-->
-</head>
-<body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('/assets_login/login-form-02/fonts/icomoon/style.css')}}">
 
-	<div class="container-login100">
-		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form class="login100-form validate-form" action="{{ route('login.submit') }}" method="post">
-				{{ csrf_field() }}
-				<span class="login100-form-title p-b-37">
-					<img src="{{asset('image/logo.png')}}" style="width:80%">
-				</span>
-				@if ($message = Session::get('error'))
-					<div class="container mb-3" role="alert">
-						<strong class="text-danger">Tidak Berhasil !</strong>
-						<p>{{$message}}</p>
-					</div>
-				@endif
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="email" placeholder="email">
-					<span class="focus-input100"></span>
+    <link rel="stylesheet" href="{{ asset('/assets_login/login-form-02/css/owl.carousel.min.css')}}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('/assets_login/login-form-02/css/bootstrap.min.css')}}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{{ asset('/assets_login/login-form-02/css/style.css')}}">
+
+    <title>Login #2</title>
+  </head>
+  <body>
+  
+
+  <div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" style="background-image: url({{asset('assets_login/login-form-02/images/bg_1.jpg')}})"></div>
+    <div class="contents order-2 order-md-1">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <center><h3>Login</h3></center><br>
+			@if ($message = Session::get('error'))
+				<div class="container mb-3" role="alert">
+					<strong class="text-danger">Tidak Berhasil !</strong>
+					<p>{{$message}}</p>
 				</div>
+			@endif
+            <form action="{{ route('login.submit') }}" class="validate-form" method="post">
+              <div class="form-group first">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" placeholder="your-email@gmail.com" id="email" name="name">
+              </div>
+              <div class="form-group last mb-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" placeholder="Your Password" id="password" name="password">
+              </div>
 
-				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" name="password" placeholder="password">
-					<span class="focus-input100"></span>
-				</div>
+              <input type="submit" value="Log In" class="btn btn-block btn-primary">
 
-				<div class="container-login100-form-btn mb-3">
-					<button type="submit" class="login100-form-btn">
-						Masuk
-					</button>
-					<br><br><br>			
-                     <a href="{{ route('password.request') }}"> Lupa Password ? </a> 
-                               
-				</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-				<!-- <div class="text-center">
-					<a href="#" class="txt2 hov1">
-						Belum punya akun? Daftar
-					</a>
-				</div> -->
-			</form>
+    
+  </div>
+    
+    
 
-
-		</div>
-	</div>
-
-
-
-	<div id="dropDownSelect1"></div>
-
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/animsition/js/animsition.min.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/bootstrap/js/popper.js')}}"></script>
-	<script src="{{asset('login_assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/select2/select2.min.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/daterangepicker/moment.min.js')}}"></script>
-	<script src="{{asset('login_assets/vendor/daterangepicker/daterangepicker.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/vendor/countdowntime/countdowntime.js')}}"></script>
-<!--===============================================================================================-->
-	<script src="{{asset('login_assets/js/main.js')}}"></script>
-
-</body>
+    <script src="{{ asset('/assets_login/login-form-02/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{ asset('/assets_login/login-form-02/js/popper.min.js')}}"></script>
+    <script src="{{ asset('/assets_login/login-form-02/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('/assets_login/login-form-02/js/main.js')}}"></script>
+  </body>
 </html>
