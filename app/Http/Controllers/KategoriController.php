@@ -79,8 +79,9 @@ class KategoriController extends Controller
             $file->move('image/kategori', $nama_foto);
             //save ke database
             $kategori->url_photo = $path_foto;
-            $kategori->save();
+            
         }
+        $kategori->save();
         
         return redirect()->route('admin.kategori')->with(['success' => 'Kategori berhasil diperbarui']);
     }

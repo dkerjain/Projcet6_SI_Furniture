@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2022 at 01:05 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Jan 26, 2022 at 02:38 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_adhis`
+-- Database: `si_adhis`
 --
 
 -- --------------------------------------------------------
@@ -90565,7 +90565,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'admin', 'admin@gmail.com', 'eyJpdiI6IkRlTnR4T2FMbnJMQWtsWk1qd1d0WVE9PSIsInZhbHVlIjoiZDM5bXZmcTkydUtQNU9LWDdRVUpXdz09IiwibWFjIjoiY2FiYWFlMmVkMDUzZWFlNGQ0OTViYzI5NmE3YmI2NGIzY2JiMjNlMDE4NTRhNWNkNmYxZjY2MjMxOGYzYzRkMyJ9', '2022-01-26 04:02:26', '2022-01-26 04:09:14', NULL);
+(3, 'admin', 'admin@gmail.com', 'eyJpdiI6IkRlTnR4T2FMbnJMQWtsWk1qd1d0WVE9PSIsInZhbHVlIjoiZDM5bXZmcTkydUtQNU9LWDdRVUpXdz09IiwibWFjIjoiY2FiYWFlMmVkMDUzZWFlNGQ0OTViYzI5NmE3YmI2NGIzY2JiMjNlMDE4NTRhNWNkNmYxZjY2MjMxOGYzYzRkMyJ9', '2022-01-26 04:02:26', '2022-01-26 04:09:14', NULL),
+(4, 'Admin2', 'admin2@gmail.com', 'eyJpdiI6IjhnS1VSaVd5SlJDNWZqU3Mydk9Gbnc9PSIsInZhbHVlIjoiVTJKN1pWN0l3enJEdHlUT3lrQWF5Zz09IiwibWFjIjoiOTZkY2EzMjc2MjMzYWQyOWNmZTAyYWE0NDFmOWVkMDRjYjZiOWM3Y2M1NDM2OTM0YzU2MTA0OTE5ZWE4OGEyOCJ9', '2022-01-26 06:27:01', '2022-01-26 06:27:01', NULL);
 
 --
 -- Indexes for dumped tables
@@ -90723,7 +90724,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
