@@ -116,25 +116,41 @@
                                               </div>
                                               <div class="form-group">
                                                   <label>Status Diskon <span class="required">*</span></label>
+                                                  @if($p->status_diskon==0)
                                                   <select class="form-control" required name="status_diskon">
                                                     <option value="0">Non-Aktif</option>    
                                                     <option value="1">Aktif</option>
                                                   </select>
+                                                  @elseif($p->status_diskon==1)
+                                                  <select class="form-control" required name="status_diskon">
+                                                    <option value="1">Aktif</option>    
+                                                    <option value="0">Non-Aktif</option>
+                                                  </select>
+                                                  @endif
                                               </div>
                                               <div class="form-group">
                                                   <label>Status Produk <span class="required">*</span></label>
+                                                  @if($p->status_produk==0)
                                                   <select class="form-control" required name="status_produk">
-                                                      <option value="1">Aktif</option>
-                                                      <option value="0">Non-Aktif</option>
+                                                    <option value="0">Non-Aktif</option>    
+                                                    <option value="1">Aktif</option>
                                                   </select>
+                                                  @elseif($p->status_produk==1)
+                                                  <select class="form-control" required name="status_produk">
+                                                    <option value="1">Aktif</option>    
+                                                    <option value="0">Non-Aktif</option>
+                                                  </select>
+                                                  @endif
                                               </div>
                                               <div class="form-group">
                                                   <label for="exampleInputFile">Input Foto<span class="required">*</span> </label>
                                                   <div class="input-group">
                                                       <div class="custom-file">
                                                           @foreach($picture as $pic)
+                                                          @if($pic->id_produk==$p->id)
                                                           <input type="file" value="{{$pic->url_photo}}" class="custom-file-input" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
                                                           <label class="custom-file-label" for="exampleInputFile">{{ $pic->file_name }}</label>
+                                                          @endif
                                                           @endforeach
                                                       </div>
                                                   </div>

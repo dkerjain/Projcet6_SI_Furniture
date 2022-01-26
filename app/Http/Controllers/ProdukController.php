@@ -85,46 +85,6 @@ class ProdukController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-      $produk = Produk::where('id',$id)->with('ukiran','kategori','picture')->first();
-      return view('admin.produk.show',compact('produk'));
-    }
-
-    //request api
-    public function showApi($id)
-    {
-      //id adalah kode barang atau nomor barcode
-      $produk = Produk::where('kode_barang',$id)->orWhere('nomor_barcode',$id)->with('ukiran','kategori','picture')->first();
-      $status ='';
-      if(!$produk){
-        $status = 'error';
-      }else{
-        $status = 'success';
-      }
-      return response()->json(compact('status','produk'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-      $produk = Produk::where('id',$id)->with('ukiran','kategori','picture')->first();
-      $ukiran = Ukiran::all();
-      $kategori = Kategori::all();
-      return view('admin.produk.edit',compact('produk','ukiran','kategori'));
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -134,11 +94,10 @@ class ProdukController extends Controller
     public function update(Request $request)
     {
 
-      $path = null;
-        if($request->foto)
+        if($request->hasfile('image'))
         {
             $file = $request->file('image');
-            $nama_foto = $produk->id.'_'.$request->file('image')->getClientOriginalName();
+            $nama_foto = $request->id.'_'.$request->file('image')->getClientOriginalName();
             $path = '/image/produk/'.$nama_foto;   
             // Simpan file ke public
             $file->move('image/produk', $nama_foto);
@@ -146,9 +105,6 @@ class ProdukController extends Controller
               'url_photo' => $path,
               'file_name' => $nama_foto
             ]);     
-        }   
-        else{
-            $path = $request->image;
         }
 
       $produk = Produk::find($request->id);
@@ -168,32 +124,5 @@ class ProdukController extends Controller
         
         
       return redirect()->route('admin.produk')->with(['success' => 'Produk berhasil diperbarui']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $produk = Produk::where('id',$id)->with('picture')->first();
-        //cek produk
-        if(!$produk){
-          return Redirect::back()->with(['error'=>'Produk tidak ditemukan!']);
-        }
-        //hapus folder foto
-        if(Storage::disk('public')->exists('produk/'.$produk->id)){
-            Storage::disk('public')->deleteDirectory('produk/'.$produk->id);
-        }
-        //hapus foto di database
-        for ($i=0; $i <count($produk->picture) ; $i++) {
-          $picture = Picture::find($produk->picture[$i]->id);
-          $picture->delete();
-        }
-        //hapus produk
-        $produk->delete();
-        return redirect()->route('admin.produk')->with(['success' => 'Produk berhasil dihapus']);
     }
 }

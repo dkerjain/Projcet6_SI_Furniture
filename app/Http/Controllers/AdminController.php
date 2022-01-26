@@ -46,46 +46,5 @@ class AdminController extends Controller
       $order_belum_ditindak = Order::where('status',0)->get();
       return view('admin.dashboard',compact('produk','nilai_transaksi','item_terjual','order_belum_ditindak'));
     }
-     public function laporan()
-    {   
-        $year = date('Y');
-        $month = date('m');
-        $pembayaran = Pembayaran::where('status_pembayaran',1);
-        $order = Order::with('customer','orderList','pembayaran')->where('status',2)->whereMonth('created_at', '=', $month)->orderBy('created_at','desc')->get();
-         $nilai_transaksi = 0;
-      $item_terjual = 0;
-      for ($i=0; $i <count($order) ; $i++) {
-        $nilai_transaksi = $nilai_transaksi + $order[$i]->biaya_total_produk;
-        $item_terjual = $item_terjual + $order[$i]->jumlah_item;
-      }
 
-        return view('admin.penjualan.laporan',compact('order','nilai_transaksi'));
-    }
-
-
-    public function exportPDF()
-    {
-        $year = date('Y');
-        $month = date('m');
-        $pembayaran = Pembayaran::where('status_pembayaran',1);
-        $order = Order::with('customer','orderList','pembayaran')->where('status',2)->whereMonth('created_at', '=', $month)->orderBy('created_at','desc')->get();
-         $nilai_transaksi = 0;
-      $item_terjual = 0;
-      for ($i=0; $i <count($order) ; $i++) {
-        $nilai_transaksi = $nilai_transaksi + $order[$i]->biaya_total_produk;
-        $item_terjual = $item_terjual + $order[$i]->jumlah_item;
-        $pdf = PDF::loadview('admin.penjualan.laporan',compact('order','nilai_transaksi'));
-      }
-        return $pdf->download('laporan_'.date('F Y').'.pdf');
-    }
-
-    
-
-
-
-    public function logout(Request $request)
-    {
-      Auth::logout();
-      return redirect('/');
-    }
 }
