@@ -131,7 +131,7 @@
         <div class="col-12 mt-5" align="center">
           <div class="color-jameela" style="opacity:0.5; font-size:12px;">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is based from <a href="https://colorlib.com/wp/template/destino/" class="color-jameela" target="_blank">Destino</a> template by <a href="https://colorlib.com" class="color-jameela" target="_blank">Colorlib</a> and modified by <a href="https://www.instagram.com/dkerjain/" class="color-jameela" target="_blank">DKerjain</a>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is based from <a href="https://colorlib.com/wp/template/destino/" class="color-jameela" target="_blank">Destino</a> template by <a href="https://colorlib.com" class="color-jameela" target="_blank">Colorlib</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </div>
         </div>
